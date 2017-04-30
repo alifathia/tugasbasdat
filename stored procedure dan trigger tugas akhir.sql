@@ -65,10 +65,42 @@ LANGUAGE plpgsql;
 --trigger
 CREATE TRIGGER trigger_jumlah_pelamar
 AFTER INSERT OR DELETE OR UPDATE
+ON PENDAFTARAN_PRODI
+FOR EACH ROW EXECUTE PROCEDURE hitung_pelamar();
 
 
 
 
+-- 2. stored procedure dan trigger buat ngupdate jumlah_diterima (old.prodi-1 dan new.prodi+1)
+CREATE OR REPLACE FUNCTION update_jumlah_diterima()
+RETURNS TRIGGER AS
+$$
+DECLARE
+	jumlah_sekarang INTEGER;
+	row RECORD;
+BEGIN
+IF(TG_OP = 'UPDATE') THEN
+	SELECT COUNT(*) INTO jumlah_sekarang
+	FROM PENERIMAAN_PRODI PN, PENERIMAAN_PRODI PD, PENDAFTARAN P, PROGRAM_STUDI PS
+	WHERE P.id = PD.id_pendaftaran AND PD.kode_prodi = PS.kode AND NEW.status_lulus = TRUE;
+	
 
+	UPDATE PENERIMAAN_PRODI PN SET jumlah_diterima = jumlah_sekarang WHERE NEW.kode_prodi = PS.kode
+	AND NEW.id_pendaftaran = P.id;
 
-2. stored procedure dan trigger buat ngupdate jumlah_diterima (old.prodi-1 dan new.prodi+1)
+	SELECT COUNT(*) INTO jumlah_sekarang
+	FROM PENERIMAAN_PRODI PN, PENERIMAAN_PRODI PD, PENDAFTARAN P, PROGRAM_STUDI PS
+	WHERE P.id = PD.id_pendaftaran AND PD.kode_prodi = PS.kode AND NEW.status_lulus = FALSE;
+	
+	UPDATE PENERIMAAN_PRODI PN SET jumlah_diterima = jumlah_sekarang WHERE OLD.kode_prodi = PS.kode
+	AND OLD.id_pendaftaran = P.id;
+END IF;
+END;
+$$
+LANGUAGE plpgsql;
+
+--TRIGGER
+CREATE TRIGGER trigger_jumlah_diterima
+AFTER UPDATE
+ON PENDAFTARAN_PRODI
+FOR EACH ROW EXECUTE PROCEDURE update_jumlah_diterima();
