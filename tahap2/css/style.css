@@ -1,4 +1,12 @@
+@import url('https://fonts.google.com/specimen/Roboto');
+
 /* Form */
+/*.form .form-group{
+  font-size: 12px;
+  font-weight: bold;
+  padding-bottom: 1px;
+}*/
+
 .form {
   position: relative;
   z-index: 1;
