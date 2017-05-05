@@ -34,11 +34,11 @@
 		  </div>
 		</nav>
 
-		<div class="container-fluid">
+		<div class="container-fluid" id="pilih_jenjang" style="width:500px;height:190px;">
 			<h2 class="text-center">Pilih Jenjang</h2>
 		</div>
 
-		<div class="container">
+		<div class="container-fluid text-center" style="width:500px;height:380px;">
 		  	<div class="dropdown">
 		    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Pilih Jenjang<span class="caret"></span></button>
 		    <ul class="dropdown-menu">
