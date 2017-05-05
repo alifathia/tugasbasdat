@@ -7,9 +7,6 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-      <!--formden.js communicates with FormDen server to validate fields and submit via AJAX -->
-      <script type="text/javascript" src="https://formden.com/static/cdn/formden.js"></script>
-
       <!-- Special version of Bootstrap that is isolated to content wrapped in .bootstrap-iso -->
       <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
 
@@ -22,7 +19,7 @@
       <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Montserrat:400,700'>
       <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
 
-      <!-- CSS scripts -->
+      <!-- Custom CSS scripts -->
       <link rel="stylesheet" href="css/style.css">
 
       <!--Let browser know website is optimized for mobile-->
@@ -37,79 +34,60 @@
       </div>
 
       <!-- form registrasi jika belum punya akun -->
-      <div class="bootstrap-iso">
-        <div class="form">
-          <div class="thumbnail"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/hat.svg"/></div>
-          <form class="register-form">
-            <span>Registrasi Akun SIRIMA<br></span>
+      <div class="form">
+        <div class="thumbnail"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/hat.svg"/></div>
+        <form class="register-form">
+          <span>Registrasi Akun SIRIMA<br></span>
+          <br>
+          <div class="form-group">
+            <input type="text" class="form-control" id="username" placeholder="username">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" id="password" placeholder="password">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" id="repeatpassword" placeholder="ulangi password">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="fullname" placeholder="nama lengkap">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="idnumber" placeholder="no. identitas">
+          </div>
+          <div class="form-group">
+            <select class="form-control" id="jeniskelamin">
+              <option selected>jenis kelamin</option>
+              <option value="L">laki-laki</option>
+              <option value="P">perempuan</option>
+            </select>
+          </div>
 
-            <br>
+          <!-- date picker -->
             <div class="form-group">
-              <!-- <label for="username">Username</label> -->
-              <input type="text" class="form-control" id="username" placeholder="username">
+              <input class="form-control" id="date" name="date" placeholder="tanggal lahir: MM/DD/YYY" type="date"/>
             </div>
 
-            <div class="form-group">
-              <!-- <label for="password">Password</label> -->
-              <input type="password" class="form-control" id="password" placeholder="password">
-            </div>
+          <div class="form-group">
+            <textarea class="form-control" id="address" rows="2" placeholder="alamat"></textarea>
+          </div>
+          <div class="form-group">
+            <input class="form-control" name="email" type="text" placeholder="alamat e-mail"/>
+          </div>
+          <div class="form-group">
+            <input class="form-control" name="repeatemail" type="text" placeholder="ulangi e-mail"/>
+          </div>
+          <button type="submit">create account</button>
+          <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
 
-
-            <div class="form-group">
-              <!-- <label for="repeatpassword">Ulangi Password</label> -->
-              <input type="password" class="form-control" id="repeatpassword" placeholder="ulangi password">
-            </div>
-
-            <div class="form-group">
-              <!-- <label for="fullname">Nama Lengkap</label> -->
-              <input type="text" class="form-control" id="fullname" placeholder="nama lengkap">
-            </div>
-
-            <div class="form-group">
-              <!-- <label for="idnumber">Nomor Identitas</label> -->
-              <input type="text" class="form-control" id="idnumber" placeholder="no. identitas">
-            </div>
-      
-            <div class="form-group">
-              <!-- <label for="exampleSelect1">jenis kelamin</label> -->
-              <select class="form-control" id="jeniskelamin">
-                <option selected>jenis kelamin</option>
-                <option value="L">laki-laki</option>
-                <option value="P">perempuan</option>
-              </select>
-            </div>
-
-            <!-- date picker -->
-            <div class="form-group"> <!-- Date input -->
-              <label class="control-label" for="date">tanggal lahir</label>
-              <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-            </div>
-            
-            <div class="form-group">
-              <textarea class="form-control" id="address" rows="2" placeholder="alamat"></textarea>
-            </div>
-
-            <div class="form-group">
-              <input class="form-control" name="email" type="text" placeholder="alamat e-mail"/>
-            </div>
-
-            <div class="form-group">
-              <input class="form-control" name="repeatemail" type="text" placeholder="ulangi e-mail"/>
-            </div>
-            <button type="submit">create account</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
-          </form>
-
-          <!-- form login jika sudah punya akun -->
-          <form class="login-form">
-            <span>Login Akun SIRIMA<br></span><br>
-
-            <input type="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
-            <button type="submit">login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
-          </form>
-        </div>
+        <!-- form login jika sudah punya akun -->
+        <form class="login-form">
+          <span>Login Akun SIRIMA<br></span><br>
+          <input type="text" placeholder="username"/>
+          <input type="password" placeholder="password"/>
+          <button type="submit">login</button>
+          <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>   
       </div>
 
       <video id="video" autoplay="autoplay" loop="loop" poster="polina.jpg">
@@ -126,16 +104,17 @@
       <script src="js/index.js"></script>
 
       <script>
-        $(document).ready(function(){
-          var date_input=$('input[name="date"]'); //our date input has the name "date"
-          var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-          date_input.datepicker({
-            format: 'mm/dd/yyyy',
-            container: container,
-            todayHighlight: true,
-            autoclose: true,
-          })
-        })
-      </script>
+      //   $(document).ready(function(){
+      //     var date_input=$('input[name="date"]'); //our date input has the name "date"
+      //     var container=$('.bootstrap-iso form-group').length>0 ? $('.bootstrap-iso form').parent() : "body";
+      //     var options={
+      //       format: 'mm/dd/yyyy',
+      //       container: container,
+      //       todayHighlight: true,
+      //       autoclose: true,
+      //     };
+      //     date_input.datepicker(options);
+      //   })
+      // </script>
     </body>
   </html>
