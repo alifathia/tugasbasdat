@@ -11,13 +11,10 @@ function connectDB(){
 }
 
 function login(){
-    // echo "masuk login";
     $connection = connectDB();
 
     $login_username = $_POST['login_username'];
     $login_password = $_POST['login_password'];
-
-    // echo $login_username;
 
     $sql = "SELECT * FROM akun";
     $result = pg_query($sql);
@@ -28,8 +25,7 @@ function login(){
         while($row = pg_fetch_assoc($result)){
             if($row['username'] == $login_username && $row['password'] == $login_password){
                 $_SESSION['username'] = $row['username'];
-                echo "username";
-                if($row['role'] == true){
+                if($row['role'] == t){
                     $_SESSION['role'] = "admin";
                     header("Location: ./pages/landing_admin.php");
                     echo "role";
