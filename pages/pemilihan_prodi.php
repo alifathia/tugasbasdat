@@ -2,12 +2,13 @@
 <html>
 	<head>
 		<title>SIRIMA</title>
-		<link rel="stylesheet" type="text/css" href="css/drpdwn.css">
+		<link rel="stylesheet" type="text/css" href="../css/drpdwn.css">
 		<script type="text/javascript" src="js/drpdwn.js"></script>
 		<link rel="stylesheet" href="../bootstrap-3.3.7/css/bootstrap.min.css">
 		<script src="../bootstrap-3.3.7/js/jquery.min.js"></script>
-		<script src="../bootstrap-3.3.7/js/bootstrap.min.js"></script>
+		<script src="../bootstrap-3.3.7/js/bootstrap.min.js"></script>	
 	</head>
+
 	<body>
 	 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
         <div class="container topnav">
@@ -25,7 +26,7 @@
                         <a href="pemilihan_prodi.php">Daftar Pelamar Diterima</a>
                     </li>
                     <li>
-                        <a href="index.html">Logout</a>
+                        <a href="logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -36,8 +37,8 @@
 	<br>
 	<br>
 	<br>
-	<?php
 	
+	<?php
 	$connection = pg_connect ("host=localhost dbname=sirima user=postgres password=postgres");
     /*
 	if($connection) {
@@ -46,6 +47,7 @@
     echo 'there has been an error connecting';
     } 
 	*/
+	
 	$query = "SET search_path to SIRIMA";
 	$result = pg_query($query);
 	//$row = pg_fetch_assoc($result);
@@ -53,15 +55,14 @@
 	//echo "<option value=\"owner1\">" . $row['username'] . "</option>";
 	//}
 	?>
-	
 	<div class="container-fluid">
-	<h1>Form Pemilihan Jenjang</h1>
-	<p>Isi periode dan jenjang sesuai dengan apa yang ingin dilihat.</p>
+	<h1>Form Pemilihan Prodi</h1>
+	<p>This is a paragraph.</p>
 	
 	<p></p>
 	<div class="row">
 		<div class="col-xs-6 col-sm-3">
-		<form method="post" action="jenjang.php">
+		<form method="post" action="pelamar_diterima.php">
 			<div class="div-inline">Periode: 
 			<select class="form-control" name="periode_select" id="periode_select">
 				<?php
@@ -75,20 +76,20 @@
 			</select>
 			</div>
 			<p></p>
-			<div class="div-inline">Jenjang: 
-			<select class="form-control" name="jenjang_select" id="jenjang_select">
+			<div class="div-inline">Prodi: 
+			<select class="form-control" name="prodi_select" id="prodi_select">
 				<?php
-				$query2 = "select * from jenjang";
+				$query2 = "select * from program_studi";
 				$result2 = pg_query($query2);
 				
 				while ($row = pg_fetch_assoc($result2)){
-				echo "<option name='". htmlspecialchars($row['nama']) ."'>" . htmlspecialchars($row['nama']) . "</option>";
+				echo "<option name='". htmlspecialchars($row['jenjang']) ."'>" . htmlspecialchars($row['jenjang']) . " " . htmlspecialchars($row['nama']) . " " . htmlspecialchars($row['jenis_kelas']) ."</option>";
 				}
 				?>
 			</select>
 			</div>
 			<p></p>
-			<input class="btn btn-default" type="submit" name="submit" value="Pilih">
+			<input class="btn btn-default" type="submit" name="submit" value="Submit">
 		</form>
 		</div>
 	</div>

@@ -25,7 +25,7 @@
                         <a href="pemilihan_prodi.php">Daftar Pelamar Diterima</a>
                     </li>
                     <li>
-                        <a href="index.html">Logout</a>
+                        <a href="logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
