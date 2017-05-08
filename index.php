@@ -1,3 +1,60 @@
+<?php
+function connectDB(){
+    //create connection
+    $connection = pg_connect("host=localhost dbname=sirima user=postgres password=postgres");
+
+    //check connection
+    if(!$connection) {
+        echo 'there has been an error connecting';
+    }
+    return $connection;
+}
+
+function login(){
+    // echo "masuk login";
+    $connection = connectDB();
+
+    $login_username = $_POST['login_username'];
+    $login_password = $_POST['login_password'];
+
+    // echo $login_username;
+
+    $sql = "SELECT * FROM akun";
+    $result = pg_query($sql);
+
+    if(pg_num_rows($result) > 0){
+        //check output of each row
+        // echo "getresult";
+        while($row = pg_fetch_assoc($result)){
+            if($row['username'] == $login_username && $row['password'] == $login_password){
+                $_SESSION['username'] = $row['username'];
+                echo "username";
+                if($row['role'] == true){
+                    $_SESSION['role'] = "admin";
+                    header("Location: ./pages/landing_admin.php");
+                    echo "role";
+                }
+                else{
+                    $_SESSION['role'] = "pelamar";
+                    header("Location: ./pages/landing_pelamar.php");
+                }
+                break;
+            }
+        }
+        pg_close();
+    }
+}
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if($_POST['command'] === 'login'){
+        login();
+    }
+    if($_POST['command'] === 'register'){
+        //register();
+    }
+}
+?>
+
 <!DOCTYPE html>
   <html>
     <head>
@@ -30,7 +87,7 @@
       <!-- form registrasi jika belum punya akun -->
       <div class="form">
         <div class="thumbnail"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/hat.svg"/></div>
-        <form class="register-form">
+        <form class="register-form" action="index.php" method="post">
           <span><h2>Registrasi Akun SIRIMA</h2><br></span>
           <br>
           <div class="form-group">
@@ -84,10 +141,13 @@
         </form>
 
         <!-- form login jika sudah punya akun -->
-        <form class="login-form">
+        <form class="login-form" action="index.php" method="post">
           <span>Login Akun SIRIMA<br></span><br>
-          <input type="text" placeholder="username"/>
-          <input type="password" placeholder="password"/>
+          <input name="login_username" type="text" placeholder="username"/>
+          <input name="login_password" type="password" placeholder="password"/>
+          
+          <!-- hidden input -->
+          <input type="hidden" id="login-command" name="command" value="login">
           <button type="submit">login</button>
           <p class="message">Not registered? <a href="#">Create an account</a></p>
         </form>   
