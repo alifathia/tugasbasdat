@@ -1,3 +1,10 @@
+<?php
+    session_start();
+
+    if(!isset($_SESSION['username'])){
+        header("Location: ../index.php");
+    }
+?>
 <html>
     <head>
         <meta charset="utf-8">
@@ -62,7 +69,6 @@
                     <div class="col-lg-12">
                         <div class="intro-message">
                             <h1>Sistem Informasi Penerimaan Mahasiswa</h1>
-                            <!-- <h3>A Template by Start Bootstrap</h3> -->
                             <hr class="intro-divider">
                         </div>
                     </div>

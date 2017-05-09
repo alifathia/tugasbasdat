@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 function connectDB(){
     //create connection
     $connection = pg_connect("host=localhost dbname=sirima user=postgres password=postgres");
@@ -21,20 +23,22 @@ function login(){
 
     if(pg_num_rows($result) > 0){
         //check output of each row
-        // echo "getresult";
         while($row = pg_fetch_assoc($result)){
             if($row['username'] == $login_username && $row['password'] == $login_password){
                 $_SESSION['username'] = $row['username'];
                 if($row['role'] == t){
                     $_SESSION['role'] = "admin";
                     header("Location: ./pages/landing_admin.php");
-                    echo "role";
                 }
                 else{
                     $_SESSION['role'] = "pelamar";
                     header("Location: ./pages/landing_pelamar.php");
                 }
                 break;
+            }
+            else if($row['username'] == $login_username && $row['password'] != $login_password){
+                $message = "wrong password!";
+                echo "<script type='text/javascript'>alert('$message');</script>";
             }
         }
         pg_close();
