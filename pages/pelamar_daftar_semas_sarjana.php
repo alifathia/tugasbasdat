@@ -28,7 +28,7 @@
 		    <div class="collapse navbar-collapse" id="myNavbar">
 		      <ul class="nav navbar-nav navbar-right">
 		      	<li><a href=#>#namaPelamar</a></li>
-		        <li><a href="../index.html">LOGOUT</a></li>
+		        <li><a href="logout.php">LOGOUT</a></li>
 		      </ul>
 		    </div>
 		  </div>
