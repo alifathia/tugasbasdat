@@ -63,6 +63,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
       <link rel="stylesheet" href="./bootstrap-3.3.7/css/bootstrap.min.css">
       <script src="./bootstrap-3.3.7/js/jquery.min.js"></script>
       <script src="./bootstrap-3.3.7/js/bootstrap.min.js"></script>
+      <script src="./js/modernizr.custom.80028.js"></script>
 
       <!-- Other scripts -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
@@ -72,6 +73,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
       <!-- Custom CSS scripts -->
       <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/notification.css">
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -83,6 +85,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
           <h1>SIRIMA</h1>
         </div>
       </div>
+
+      <!-- alerts -->
+
 
       <!-- form registrasi jika belum punya akun -->
       <div class="form">
@@ -161,5 +166,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
       <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
       <script src="js/index.js"></script>
+      <script>
+        close = document.getElementById("close");
+           close.addEventListener('click', function() {
+             note = document.getElementById("note");
+             note.style.display = 'none';
+           }, false);
+      </script>
     </body>
   </html>
