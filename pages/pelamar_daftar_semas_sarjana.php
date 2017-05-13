@@ -13,6 +13,9 @@
 			body{
 				font-family: Lato;
 			}
+			.salah{
+				color: red;
+			}
 		</style>
 
 		<nav class="navbar navbar-default">
@@ -59,7 +62,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form id="daftar" action="" method="post" enctype="multipart/form-data">
+					<form id="daftar" action="pelamar_daftar_semas_sarjana.php" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="asal">Asal Sekolah</label>
 							<input type="text" class="form-control" id="insert-asalSekolah" name="asalSekolah" placeholder="Contoh: SMA N 1 Jakarta" required>
@@ -81,6 +84,7 @@
 						<div class="form-group">
 							<label for="nisn">NISN</label>
 							<input type="text" class="form-control" id="insert-nisn" name="nisn" placeholder="NISN" max="10" required>
+							<p id="alert_nisn" class="salah"></p>
 							<span class="help-block">maksimal 10 karakter angka</span>
 						</div>
 							<div class="form-group">
@@ -90,12 +94,13 @@
 						<div class="form-group">
 							<label for="uan">Nilai UAN</label>
 							<input type="text" class="form-control" id="insert-uan" name="nilaiuan" placeholder="Contoh: 40.60" required>
+							<p id="alert_uan" class="salah"></p>
 							<span class="help-block">Nilai dalam bentuk angka (bisa desimal)</span>
 						</div>
 						<div class="form-group">
 							<label for="prodi1">Prodi Pilihan 1</label>
 							<div class="form-group">
-				              <select class="form-control" id="prodi1" required>
+				              <select class="form-control" name="prodi1" id="prodi1" required>
 								<?php
 								$query = "SELECT PS.nama
 										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP
@@ -106,19 +111,13 @@
 									echo "<option name='". htmlspecialchars($row['nama']) ."'>" . htmlspecialchars($row['nama']) . "</option>";
 								}
 								?>
-				                <option value="Kedokteran">Kedokteran</option>
-				                <option value="Matematika">Matematika</option>
-				                <option value="Teknik Sipil">Biologi</option>
-				                <option value="Teknik Sipil">Teknik Sipil</option>
-				                <option value="Teknik Sipil">Teknik Industri</option>
-				                <option value="Teknik Sipil">Ilmu Komputer</option>
 				              </select>
 				            </div>
 						</div>
 						<div class="form-group">
 							<label for="prodi1">Prodi Pilihan 2</label>
 							<div class="form-group">
-				              <select class="form-control" id="prodi2">
+				              <select class="form-control" name="prodi2" id="prodi2">
 								<?php
 								$query = "SELECT PS.nama
 										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP
@@ -129,12 +128,6 @@
 									echo "<option name='". htmlspecialchars($row['nama']) ."'>" . htmlspecialchars($row['nama']) . "</option>";
 								}
 								?>
-				                <option value="Kedokteran">Kedokteran</option>
-				                <option value="Matematika">Matematika</option>
-				                <option value="Teknik Sipil">Biologi</option>
-				                <option value="Teknik Sipil">Teknik Sipil</option>
-				                <option value="Teknik Sipil">Teknik Industri</option>
-				                <option value="Teknik Sipil">Ilmu Komputer</option>
 				              </select>
 							  <span class="help-block">Harap diisi berbeda dengan prodi pilihan 1</span>
 				            </div>
@@ -142,7 +135,7 @@
 						<div class="form-group">
 							<label for="prodi1">Prodi Pilihan 3</label>
 							<div class="form-group">
-				              <select class="form-control" id="prodi3">
+				              <select class="form-control" name="prodi3" id="prodi3">
 								<?php
 								$query = "SELECT PS.nama
 										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP
@@ -153,12 +146,6 @@
 									echo "<option name='". htmlspecialchars($row['nama']) ."'>" . htmlspecialchars($row['nama']) . "</option>";
 								}
 								?>
-				                <option value="Kedokteran">Kedokteran</option>
-				                <option value="Matematika">Matematika</option>
-				                <option value="Teknik Sipil">Biologi</option>
-				                <option value="Teknik Sipil">Teknik Sipil</option>
-				                <option value="Teknik Sipil">Teknik Industri</option>
-				                <option value="Teknik Sipil">Ilmu Komputer</option>
 				              </select>
 							  <span class="help-block">Harap diisi berbeda dengan prodi pilihan 1 dan 2</span>
 				            </div>
@@ -176,112 +163,45 @@
 									echo "<option name='". htmlspecialchars($row['kota']) ."'>" . htmlspecialchars($row['kota']) . "</option>";
 								}
 								?>
-							  <option value="Depok">Depok</option>
-							  <option value="Serang">Serang</option>
-							  <option value="Jakarta">Jakarta</option>
-							  <option value="Bandung">Bandung</option>
-							  <option value="Kuta">Kuta</option>
-							  <option value="Tanggerang">Tanggerang</option>
-							  <option value="Bogor">Bogor</option>
-							  <option value="Balikpapan">Balikpapan</option>
-							  <option value="Aceh">Aceh</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<label for="tempat">Lokasi Tempat Ujian</label>
-							<select id="second" class="form-control" role="listbox" required>
-							  <option value="1">Option 1</option>
-							  <option value="2">Option 2</option>
-							  <option value="3">Option 3</option>
-							  <option value="4">Option 4</option>
+							<select id="second" class="form-control" role="listbox">
 							</select>
 						</div>
-						<input type="hidden" id="insert-command" name="command" value="insert">
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bayarModal">Simpan</button>
+						<input type="hidden" id="daftar-command" name="command" value="daftar">
+						<button type="submit" class="btn btn-primary" onclick="myFunction()">Simpan</button>
 					</form>
 				</div>
 			</div>
-		</div>
-
-		<div class="modal fade" id="bayarModal" role="document">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-		          		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		          		<h3 class="modal-title">Pembayaran</h3>
-		        	</div>
-					<div class="modal-body">
-						<form action="" method="post" enctype="multipart/form-data">
-							<div class="form-group">
-								<label for="idDaftar">ID Pendaftaran :</label>
-							</div>
-							<div class="form-group">
-								<label for="biaya">Biaya :</label>
-							</div>
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#suksesModal">Bayar</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="modal fade" id="suksesModal" role="dialog">
-		    <div class="modal-dialog">
-		      	<div class="modal-content">
-		        	<div class="modal-header">
-		          		<h3 class="modal-title">Pendaftaran Sukses</h3>
-		        	</div>
-		        	<div class="modal-body">
-		          		<p class="text-center">Selamat pembayaran berhasil dilakukan</p>
-		          		<form action="" method="post" enctype="multipart/form-data">
-						<div class="form-group">
-							<label for="idDaftar">ID Pendaftaran :</label>
-						</div>
-						<div class="form-group">
-							<label for="biaya">ID Pembayaran :</label>
-						</div>
-						<div class="form-group">
-							<label for="kartu">Nomor Kartu Ujian :</label>
-						</div>
-					</form>
-		        	</div>
-		        	<div class="modal-footer">
-		          		<button type="button" class="btn btn-default"><a href="pelamar_pilih_jenjang.php">Selesai</a></button>
-		        	</div>
-		      	</div>
-		    </div>
 		</div>
 		
 		<script>
-		$(document).ready(function() {
-			$('#daftar').formValidation({
-				framework: 'bootstrap',
-				icon: {
-					valid: 'glyphicon glyphicon-ok',
-					invalid: 'glyphicon glyphicon-remove',
-					validating: 'glyphicon glyphicon-refresh'
-				},
-				fields: {
-					nisn: {
-						validators: {
-							integer: {
-								message: 'Input hanya berupa angka',
-								max: 10
-							}
-						}
-					}
-					nilaiuan: {
-						validators: {
-							numeric: {
-								message: 'Input hanya berupa angka atau desimal',
-								decimalSeparator: '.'
-							}
-						}
-					}
-				}
-			});
-		});
+		function myFunction() {
+			var nisn, nilaiuan, text;
+			var isValid = true;
+
+			// Get the value of the input field
+			nisn = document.getElementById("insert-nisn").value;
+			nilaiuan = document.getElementById("insert-uan").value;
+
+			if (isNaN(nisn) || nisn > 9999999999) {
+				text = "Input harus berupa angka dan tidak boleh lebih dari 10 angka";
+				document.getElementById("alert_nisn").innerHTML = text;
+				isValid = false;
+			}
+			
+			if (isNaN(nilaiuan)) {
+				text = "Input harus berupa angka";
+				document.getElementById("alert_uan").innerHTML = text;
+				isValid = false;
+			}
+			
+		}
 		</script>
+		
+		
 
 		<!-- More Script -->
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -296,3 +216,24 @@
 		<style type="text/css">
 	</body>
 </html>
+
+<?php
+function daftar(){
+
+    $prodi1 = $_POST['prodi1'];
+	$prodi2 = $_POST['prodi2'];
+	$prodi3 = $_POST['prodi3'];
+	
+	if($prodi1 = $prodi2 = $prodi3 || $prodi1 = $prodi2 || $prodi1 = $prodi3 || $prodi2 = $prodi3){
+		$message = "Prodi pilihan 1, 2, dan 3 tidak boleh sama!";
+	} else {
+		//header("Location: pelamar_bayar.php");
+	}
+}
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if($_POST['command'] === 'daftar'){
+        daftar();
+    }
+}
+?>
