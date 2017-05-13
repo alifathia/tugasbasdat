@@ -17,7 +17,9 @@ function login(){
 
     $login_username = $_POST['login_username'];
     $login_password = $_POST['login_password'];
-
+	
+	$query1 = "SET search_path to SIRIMA";
+	$result1 = pg_query($query1);
     $sql = "SELECT * FROM akun";
     $result = pg_query($sql);
 
