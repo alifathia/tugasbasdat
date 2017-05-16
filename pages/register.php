@@ -37,7 +37,7 @@
 			}
 			.form-labels-on-top{
 			    box-sizing: border-box;
-			    max-width: 700px;
+			    max-width: 550px;
 			    margin: 0 auto;
 			    padding: 55px;
 
@@ -110,7 +110,7 @@
 			        <div class="button-container">
 			        	<button class="btn btn-danger">create account</button>			        
 			        </div>
-			        <br><p class="message">Already registered? <a href="./index.php">Sign In</a></p>
+			        <br><p class="message">Already registered? <a href="../index.php">Sign In</a></p>
 			</form>
 		</div>
 
