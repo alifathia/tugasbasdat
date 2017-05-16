@@ -7,6 +7,24 @@
   padding-bottom: 1px;
 }*/
 
+/*register*/
+.form-labels-on-top{
+    box-sizing: border-box;
+    max-width: 475px;
+    margin: 0 auto;
+    padding: 55px;
+
+    background-color:  #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+
+    font: bold 14px sans-serif;
+    text-align: center;
+}
+
+
+.alert{
+  font-color: red;
+}
 .form {
   position: relative;
   z-index: 1;
@@ -132,7 +150,7 @@ body:before {
   height: 100%;
 }
 
-#video {
+/*#video {
   z-index: -99;
   position: fixed;
   top: 50%;
@@ -143,4 +161,6 @@ body:before {
   height: auto;
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
-}
+}*/
+
+
