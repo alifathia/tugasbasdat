@@ -53,7 +53,7 @@
 		</style>
 
 		<div class="container">
-			<form class="form-labels-on-top" action="register.php" method="post">
+			<form class="form-labels-on-top" action="register.php" method="post" onsubmit="return validate()">
 				<div class="form">
 			        <span><h2 id="header">Registrasi Akun SIRIMA</h2><br></span>
 			        <br>
@@ -100,15 +100,15 @@
 			        </div>
 			        <div class="form-group">
 			          <label for="email">E-mail</label >
-			          <input class="form-control" name="email" type="text" placeholder="alamat e-mail"/>
+			          <input class="form-control" id="email" type="text" placeholder="alamat e-mail"/>
 			        </div>
 			        <div class="form-group">
 			          <label for="repeatemail">Ulangi E-mail</label >
-			          <input class="form-control" name="repeatemail" type="text" placeholder="ulangi e-mail"/>
+			          <input class="form-control" id="repeatemail" type="text" placeholder="ulangi e-mail"/>
 			        </div>
 			        <input type="hidden" id="register-command" name="command" value="register">
 			        <div class="button-container">
-			        	<button class="btn btn-danger"  onclick="validate()">create account</button>
+			        	<button class="btn btn-danger">create account</button>			        
 			        </div>
 			        <br><p class="message">Already registered? <a href="./index.php">Sign In</a></p>
 			</form>
@@ -122,24 +122,64 @@
 		<script>
 		function validate(){
 			var flag = true;
-			var check_username = document.getElementById("username").value;
 			var messages ="";
+			var check_username = document.getElementById("username").value;
+			var check_password = document.getElementById("password").value;
+			var check_repeatpass = document.getElementById("repeatpassword").value;
+			var check_idnumber = document.getElementById("idnumber").value;
+			var check_fullname = document.getElementById("fullname").value;
+			var check_address = document.getElementById("address").value;
+			var check_email = document.getElementById("email").value;
+			var check_repeatemail = document.getElementById("repeatemail").value;
+			var regex_username = /^[a-zA-Z0-9]$/;
+			var regex_idnumber = /^[0-9]{16}$/;
+			var regex_email = /\S+@\S+\.\S+/;
 
-			if(!/^[a-zA-Z0-9]$/.test(check_username)){ //innerhtml gabisa
-				document.getElementById("alert-username").innerHTML = "Format username tidak sesuai";
-				document.getElementById("header").innerHTML = "Format username tidak sesuai";
+			if(!regex_username.test(check_username)){ 
 				flag = false;
-				messages += "+1 \n";
-				messages += "+2";
-				// alert("format uname salah");
-				// alert(check_username);
+				messages += "Format username tidak sesuai \n";
 			}
 
-			document.getElementById("header").innerHTML = "Format username tidak sesuai";
+			if(check_password.length < 6){
+				flag = false;
+				messages += "Password harus lebih dari 6 karakter \n";
+			}
+
+			if(check_password != check_repeatpass){
+				flag = false;
+				messages += "Password tidak sama \n";
+			}
+
+			if(check_fullname.length == 0){
+				flag = false;
+				messages += "Nama lengkap tidak boleh kosong \n";
+			}
+
+			if(!regex_idnumber.test(check_idnumber)){
+				flag = false;
+				messages += "Format nomor identitas tidak sesuai \n";
+			}
+
+			if(check_address.length == 0){
+				flag = false;
+				messages += "Alamat tidak boleh kosong \n";
+			}
+
+			if(!regex_email.test(check_email)){
+				flag = false;
+				messages += "Format e-mail tidak sesuai \n";
+			}
+
+			if(check_email != check_repeatemail){
+				flag = false;
+				messages += "E-mail tidak sama \n";
+			}
 
 			if(!flag){
 				alert(messages);
 			}
+
+			return flag;
 		}
 		</script>
 
