@@ -4,6 +4,11 @@
     if(!isset($_SESSION['username'])){
         header("Location: ../index.php");
     }
+
+    if (isset($_SESSION['newuser'])) {
+        $message = "New account successfully created!";
+        echo "<script type='text/javascript'>alert('$message');</script>";  
+    }
 ?>
 <html>
     <head>

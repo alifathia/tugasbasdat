@@ -40,7 +40,9 @@ function register(){
 
 		$insert1 = pg_query($insert_akun);
 		$insert2 = pg_query($insert_pelamar);
+
 		$_SESSION["username"] = $username;
+		$_SESSION["newuser"] = true;
 		header("Location: landing_pelamar.php");
 	}
 
@@ -130,6 +132,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			        <div class="form-group">
 			          <label for="gender">Jenis Kelamin</label >
 			          <select class="form-control" name="gender" id="gender">
+			          	<option value="option">Pilih Jenis Kelamin</option>
 			            <option value="L">laki-laki</option>
 			            <option value="P">perempuan</option>
 			          </select>
@@ -173,6 +176,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			var check_repeatpass = document.getElementById("repeatpassword").value;
 			var check_idnumber = document.getElementById("idnumber").value;
 			var check_fullname = document.getElementById("fullname").value;
+			var check_gender = document.getElementById("gender").value;
+			var check_birthdate = document.getElementById("birthdate").value;
 			var check_address = document.getElementById("address").value;
 			var check_email = document.getElementById("email").value;
 			var check_repeatemail = document.getElementById("repeatemail").value;
@@ -180,44 +185,86 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			var regex_idnumber = /^[0-9]{16}$/;
 			var regex_email = /\S+@\S+\.\S+/;
 
-			if(!regex_username.test(check_username)){ 
+			//jika kolom tidak diisi
+			if(check_username.length == 0){
 				flag = false;
-				messages += "Format username tidak sesuai \n";
+				messages += "Harap isi kolom Username \n";
 			}
 
-			if(check_password.length < 6){
+			if(check_password.length == 0){
 				flag = false;
-				messages += "Password harus lebih dari 6 karakter \n";
+				messages += "Harap isi kolom Password \n";
 			}
 
-			if(check_password != check_repeatpass){
+			if(check_repeatpass.length == 0){
 				flag = false;
-				messages += "Password tidak sama \n";
+				messages += "Harap isi kolom Ulangi Password \n";
 			}
 
 			if(check_fullname.length == 0){
 				flag = false;
-				messages += "Nama lengkap tidak boleh kosong \n";
+				messages += "Harap isi kolom Nama Lengkap \n";
 			}
 
-			if(!regex_idnumber.test(check_idnumber)){
+			if(check_idnumber.length == 0){
 				flag = false;
-				messages += "Format nomor identitas tidak sesuai \n";
+				messages += "Harap isi kolom Nomor Identitas \n";
 			}
 
 			if(check_address.length == 0){
 				flag = false;
-				messages += "Alamat tidak boleh kosong \n";
+				messages += "Harap isi kolom Alamat \n";
 			}
 
-			if(!regex_email.test(check_email)){
+			if(check_email.length == 0){
 				flag = false;
-				messages += "Format e-mail tidak sesuai \n";
+				messages += "Harap isi kolom Alamat E-mail \n";
+			}
+
+			if(check_repeatpass.length == 0){
+				flag = false;
+				messages += "Harap isi kolom Ulangi Alamat E-mail \n";
+			}
+
+			// if(check_gender =! "P" || check_gender =! "P"){
+			// 	flag = false;
+			// 	messages += "Jenis kelamin harus diisi \n";
+			// }
+
+			// if(check_birthdate == "option"){
+			// 	flag = false;
+			// 	messages += "Tanggal lahir harus diisi \n";
+			// }
+
+			//jika format salah
+			if(!regex_username.test(check_username) && check_username.length > 0){ 
+				flag = false;
+				messages += "\nFormat username tidak sesuai";
+			}
+
+			if(check_password.length < 6 && check_password.length > 0){
+				flag = false;
+				messages += "\nPassword harus lebih dari 6 karakter";
+			}
+
+			if(check_password != check_repeatpass){
+				flag = false;
+				messages += "\nPassword tidak sama";
+			}
+
+			if(!regex_idnumber.test(check_idnumber) && check_idnumber.length > 0){
+				flag = false;
+				messages += "\nFormat nomor identitas tidak sesuai";
+			}
+
+			if(!regex_email.test(check_email) && check_email.length > 0){
+				flag = false;
+				messages += "\nFormat e-mail tidak sesuai";
 			}
 
 			if(check_email != check_repeatemail){
 				flag = false;
-				messages += "E-mail tidak sama \n";
+				messages += "\nE-mail tidak sama";
 			}
 
 			if(!flag){
