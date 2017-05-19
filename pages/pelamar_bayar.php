@@ -34,8 +34,8 @@
 		  </div>
 		</nav>
 
-		<div class="container-fluid" id="pilih_jenjang" style="width:500px;height:190px;">
-			<h2 class="text-center">Pilih Jenjang</h2>
+		<div class="container-fluid" id="pembayaran" style="width:500px;height:190px;">
+			<h2 class="text-center">SEMANGAT HAYUK BENTAR LAGI KELAR!!!!</h2>
 		</div>
 		
 		<div class="modal-dialog" role="document">
@@ -43,26 +43,7 @@
 				<div class="modal-body">
 					<form action="" method="post" enctype="multipart/form-data">
 						<div class="form-group">
-							<label for="jenjang">Jenjang</label>
-							<!--<div class="form-group">
-				              <select class="form-control" id="jenjang" >
-				                <option value="S1">S1 (Sarjana)</option>
-				                <option value="S2">S2 (Pascasarjana)</option>
-				                <option value="S3">S3 (Pascasarjana)</option>
-				              </select>
-				            </div>
-						</div>-->
-						<div class="dropdown">
-							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Pilih Jenjang<span class="caret"></span></button>
-							<ul class="dropdown-menu">
-							  <li class="dropdown-header">Sarjana</li>
-							  <li><a href="pelamar_daftar_semas_sarjana.php">S1</a></li>
-							  <li class="divider"></li>
-							  <li class="dropdown-header">Pasca Sarjana</li>
-							  <li class="disabled"><a href="#">S2</a></li>
-							  <li class="disabled"><a href="#">S3</a></li>
-							</ul>
-						</div>
+						
 						<!--<input type="hidden" id="insert-command" name="command" value="insert">
 						<button type="button" class="btn btn-primary">Simpan</button>-->
 					</form>
