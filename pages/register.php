@@ -1,15 +1,60 @@
 <?php
-// function register(){
-//   $username = $_POST['username'];
-//   $password = $_POST['password'];
-//   $repeatpassword = $_POST['repeatpassword'];
-//   $fullname = $_POST['fullname'];
-//   $idnumber = $_POST['idnumber'];
-//   $gender = $_POST['gender'];
-//   $date = $_POST['date'];
-//   $address = $_POST['address'];
-//   $email = $_POST['email'];
-//   $repeatemail = $_POST['repeatemail'];
+session_start();
+
+function connectDB(){
+    //create connection
+    $connection = pg_connect("host=localhost dbname=sirima user=postgres password=postgres");
+
+    //check connection
+    if(!$connection) {
+        echo 'there has been an error connecting';
+    }
+    return $connection;
+}
+
+function register(){
+	$connection = connectDB();
+
+	$sql = "SET search_path to SIRIMA";
+  	$path = pg_query($sql);
+
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+	$repeatpassword = $_POST['repeatpassword'];
+	$fullname = $_POST['fullname'];
+	$idnumber = $_POST['idnumber'];
+	$gender = $_POST['gender'];
+	$birthdate = $_POST['birthdate'];
+	$address = $_POST['address'];
+	$email = $_POST['email'];
+	$repeatemail = $_POST['repeatemail'];
+
+	//check if there is username duplicate
+	$check_duplicate = "SELECT username FROM AKUN WHERE username = '$username' ";
+	$result = pg_query($check_duplicate);
+
+	//if new username doesn't exists
+	if(pg_num_rows($result) == 0){
+		$insert_pelamar = "INSERT INTO PELAMAR (username, nama_lengkap, alamat, jenis_kelamin, tanggal_lahir, no_ktp, email) VALUES ('$username','$fullname','$address','$gender','$birthdate','$idnumber','$email')";
+		$insert_akun = "INSERT INTO AKUN (username, role, password) VALUES ('$username', FALSE, '$password')";
+
+		$insert1 = pg_query($insert_akun);
+		$insert2 = pg_query($insert_pelamar);
+		$_SESSION["username"] = $username;
+		header("Location: landing_pelamar.php");
+	}
+
+	else{
+		$message = "Username already exists in database!";
+        echo "<script type='text/javascript'>alert('$message');</script>";	
+	}
+ }
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if($_POST['command'] === 'register'){
+        register();
+    }
+}
 
 ?>
 
@@ -53,62 +98,62 @@
 		</style>
 
 		<div class="container">
-			<form class="form-labels-on-top" action="register.php" method="post" onsubmit="return validate()">
+			<form class="form-labels-on-top" action="register.php" method="post" onsubmit="return validate()" enctype="multipart/form-data">
 				<div class="form">
 			        <span><h2 id="header">Registrasi Akun SIRIMA</h2><br></span>
 			        <br>
 			        <div class="form-group">
 				        <label for="username">Username </label><span><p id="alert-username" class="alert"></p></span>
-				        <input type="text" class="form-control" id="username" placeholder="username" >
+				        <input type="text" class="form-control" name="username" id="username" placeholder="username" >
 				        <span class="help-block">Username hanya boleh berisi huruf, angka dan tanda titik (.)</span>
 				  
 			        </div>
 			        <div class="form-group">
 			        	<label for="password">Password</label >
-			        	<input type="password" class="form-control" id="password" placeholder="password">
+			        	<input type="password" class="form-control" name="password" id="password" placeholder="password">
 			        	<span class="help-block">Password minimal terdiri dari 6 karakter dan bersifat case sensitive</span>
 			        </div>
 			        <div class="form-group">
 			          <label for="repeatpassword">Ulangi Password</label >
-			          <input type="password" class="form-control" id="repeatpassword" placeholder="ulangi password">
+			          <input type="password" class="form-control" name="repeatpassword" id="repeatpassword" placeholder="ulangi password">
 			        	
 			        </div>
 			        <div class="form-group">
 			          <label for="fullname">Nama Lengkap</label >
-			          <input type="text" class="form-control" id="fullname" placeholder="nama lengkap">
+			          <input type="text" class="form-control" name="fullname" id="fullname" placeholder="nama lengkap">
 			        </div>
 			        <div class="form-group">
 			         	<label for="idnumber">Nomor Identitas</label >
-			         	<input type="text" class="form-control" id="idnumber" placeholder="no. identitas">
+			         	<input type="text" class="form-control" name="idnumber" id="idnumber" placeholder="no. identitas">
 			        	<span class="help-block">Nomor identitas hanya boleh berisi 16 digit angka</span>
 			        </div>
 			        <div class="form-group">
 			          <label for="gender">Jenis Kelamin</label >
-			          <select class="form-control" id="gender">
+			          <select class="form-control" name="gender" id="gender">
 			            <option value="L">laki-laki</option>
 			            <option value="P">perempuan</option>
 			          </select>
 			        </div>
 			        <!-- date picker -->
 			        <div class="form-group">
-			            <label for="date">Tanggal Lahir</label >
-			            <input class="form-control" id="date" name="date" placeholder="tanggal lahir: MM/DD/YYY" type="date"/>
+			            <label for="birthdate">Tanggal Lahir</label >
+			            <input class="form-control" id="birthdate" name="birthdate" placeholder="tanggal lahir: MM/DD/YYY" type="date"/>
 			        </div>
 			        <div class="form-group">
 			          <label for="address">Alamat</label >
-			          <textarea class="form-control" id="address" rows="2" placeholder="alamat"></textarea>
+			          <textarea class="form-control" name="address" id="address" rows="2" placeholder="alamat"></textarea>
 			        </div>
 			        <div class="form-group">
 			          <label for="email">E-mail</label >
-			          <input class="form-control" id="email" type="text" placeholder="alamat e-mail"/>
+			          <input class="form-control" name="email" id="email" type="text" placeholder="alamat e-mail"/>
 			        </div>
 			        <div class="form-group">
 			          <label for="repeatemail">Ulangi E-mail</label >
-			          <input class="form-control" id="repeatemail" type="text" placeholder="ulangi e-mail"/>
+			          <input class="form-control" name="repeatemail" id="repeatemail" type="text" placeholder="ulangi e-mail"/>
 			        </div>
 			        <input type="hidden" id="register-command" name="command" value="register">
 			        <div class="button-container">
-			        	<button class="btn btn-danger">create account</button>			        
+			        	<button type="submit" class="btn btn-danger">create account</button>			        
 			        </div>
 			        <br><p class="message">Already registered? <a href="../index.php">Sign In</a></p>
 			</form>
@@ -131,7 +176,7 @@
 			var check_address = document.getElementById("address").value;
 			var check_email = document.getElementById("email").value;
 			var check_repeatemail = document.getElementById("repeatemail").value;
-			var regex_username = /^[a-zA-Z0-9]$/;
+			var regex_username = /^[a-zA-Z0-9]{1,20}$/;
 			var regex_idnumber = /^[0-9]{16}$/;
 			var regex_email = /\S+@\S+\.\S+/;
 

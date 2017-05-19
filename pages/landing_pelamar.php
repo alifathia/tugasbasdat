@@ -38,7 +38,7 @@
         <div class="container topnav">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <a class="navbar-brand topnav" href="#"></a>
+                <a class="navbar-brand topnav" href="#"><?php echo "Halo, ".$_SESSION["username"]; ?></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
