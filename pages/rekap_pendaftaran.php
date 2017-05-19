@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="../bootstrap-3.3.7/css/bootstrap.min.css">
 		<script src="../bootstrap-3.3.7/js/jquery.min.js"></script>
 		<script src="../bootstrap-3.3.7/js/bootstrap.min.js"></script>
+		
 	</head>
 	<body>
 	 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -37,9 +38,25 @@
 	<br>
 	<br>
 	<?php
-	
+	session_start();
 	$connection = pg_connect ("host=localhost dbname=sirima user=postgres password=postgres");
-    /*
+    
+	unset($_SESSION["current_page_jenjang"]);
+	unset($_SESSION["jenjang_j"]);
+	unset($_SESSION["nomor_j"]);
+	unset($_SESSION["periode_j"]);
+	
+	if($_SESSION['role'] != "admin"){
+		//$message = "Sorry, you're not an admin!";
+		//echo "<script type='text/javascript'>alert('$message');</script>";
+        /*echo "<script>alert('$messages');
+		window.location.href='./landing_pelamar.php'
+		</script>";
+		*/
+		header("Location: ./landing_pelamar.php");
+    }
+	
+	/*
 	if($connection) {
     echo 'connected';
     } else {
@@ -88,7 +105,7 @@
 			</select>
 			</div>
 			<p></p>
-			<input class="btn btn-default" type="submit" name="submit" value="Pilih">
+			<input class="btn btn-default" type="submit" name="submit" value="Submit">
 		</form>
 		</div>
 	</div>

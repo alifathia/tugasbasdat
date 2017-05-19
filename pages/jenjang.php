@@ -38,7 +38,22 @@
 	<br>
 	
 	<?php
-	$current_page = isset($_GET["p"]) ? $_GET["p"] : 1;
+	session_start();
+	
+	if(!isset($_SESSION["current_page_jenjang"]) && empty($_SESSION["current_page_jenjang"])){
+		
+		$nomor_periode = $_POST['periode_select']; //nomor dan periode (cth. 2-2016)
+		$jenjang = $_POST['jenjang_select'];
+		
+		$_SESSION["jenjang_j"] = $jenjang;
+		
+		$arr = explode(" - ", $nomor_periode);
+		$_SESSION["nomor_j"] = $arr[0];
+		$_SESSION["tahunperiode_j"] = $arr[1];
+		
+	}
+	
+	$_SESSION["current_page_jenjang"] = isset($_GET["p"]) ? $_GET["p"] : 1;
 	$connection = pg_connect ("host=localhost dbname=sirima user=postgres password=postgres");
     /*
 	if($connection) {
@@ -59,10 +74,11 @@
 	?>
 	<div class="container-fluid">
 	<h1>REKAP PENDAFTARAN</h1>
-	<p>Berikut adalah hasil rekap pendaftaran berdasarkan hasil search.</p>
+	<p>Berikut adalah hasil rekap pendaftaran berdasarkan hasil pencarian pilihan user.</p>
 	
 	<p></p>
 	<?php
+		/*
 		$nomor_periode = $_POST['periode_select']; //nomor dan periode (cth. 2-2016)
 		$jenjang = $_POST['jenjang_select'];
 		
@@ -70,22 +86,25 @@
 		$nomor = $arr[0];
 		$periode = $arr[1];
 		
-		/* ini buat ngecek, apus aja
+		ini buat ngecek, apus aja
 		echo $periode . " + " . $jenjang;
 		echo "<p></p>";
 		*/
-		echo "Jenjang: " . $jenjang;
+		echo "Jenjang: " . $_SESSION["jenjang_j"];
 		echo "<p></p>";
 		
 		
 		echo "<div class=pagination>";
 		$query2 = "SELECT count(*)
-		FROM penerimaan_prodi pp, program_studi ps WHERE pp.nomor_periode='" . $nomor . "' AND ps.jenjang='" . $jenjang . "' AND pp.kode_prodi = ps.kode";
+		FROM penerimaan_prodi pp, program_studi ps 
+		WHERE pp.nomor_periode='" . $_SESSION["nomor_j"] . "' 
+		AND ps.jenjang='" . $_SESSION["jenjang_j"] . "' 
+		AND pp.kode_prodi = ps.kode;";
 		$result2 = pg_query($query2);
 		$page_count = ceil(pg_fetch_assoc($result2)["count"] / $limit);
 		if($page_count > 1){
 			for($i=1; $i <= $page_count; $i++){
-				if($i == $current_page){
+				if($i == $_SESSION["current_page_jenjang"]){
 					echo "<li class=\"page-item active\"><a class =\"page-link\" href=\"jenjang.php?p=$i\">$i</a></li>";
 				} else {
 					echo "<li class=\"page-item\"><a class =\"page-link\" href=\"jenjang.php?p=$i\">$i</a></li>";
@@ -109,8 +128,15 @@
 	
 	<tbody>
 	<?php
+		$counter = $_SESSION["current_page_jenjang"] - 1;
 		$query = "SELECT DISTINCT ps.nama, ps.jenis_kelas, ps.nama_fakultas, pp.kuota, pp.jumlah_pelamar, pp.jumlah_diterima
-		FROM penerimaan_prodi pp, program_studi ps WHERE pp.nomor_periode='" . $nomor . "' AND ps.jenjang='" . $jenjang . "' AND pp.kode_prodi = ps.kode ORDER BY ps.jenis_kelas DESC;";
+		FROM penerimaan_prodi pp, program_studi ps 
+		WHERE pp.nomor_periode='" . $_SESSION["nomor_j"] . "' 
+		AND ps.jenjang='" . $_SESSION["jenjang_j"] . "' 
+		AND pp.kode_prodi = ps.kode
+		AND pp.tahun_periode='". $_SESSION["tahunperiode_j"] ."'
+		ORDER BY ps.jenis_kelas DESC
+		LIMIT $limit OFFSET ($counter * $limit);";
 		$result = pg_query($query);
 		while ($row = pg_fetch_assoc($result)){
 			echo "<tr>";

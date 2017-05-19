@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="../bootstrap-3.3.7/css/bootstrap.min.css">
 		<script src="../bootstrap-3.3.7/js/jquery.min.js"></script>
 		<script src="../bootstrap-3.3.7/js/bootstrap.min.js"></script>	
+		
 	</head>
 
 	<body>
@@ -39,8 +40,25 @@
 	<br>
 	
 	<?php
+	session_start();
 	$connection = pg_connect ("host=localhost dbname=sirima user=postgres password=postgres");
-    /*
+	
+    unset($_SESSION["pemilihan_prodi"]);
+	unset($_SESSION["nomor"]);
+	unset($_SESSION["tahun"]);
+	unset($_SESSION["jenjang"]);
+	unset($_SESSION["jenis_kelas"]);
+	unset($_SESSION["jurusan"]);
+	unset($_SESSION["current_page_pelamar_diterima"]);
+	
+	if($_SESSION['role'] != "admin"){
+		//echo $_SESSION['role'];
+		//$message = "Sorry, you're not an admin.";
+        //echo "<script type='text/javascript'>alert('$message');</script>";
+		header("Location: ./landing_pelamar.php");
+    }
+	
+	/*
 	if($connection) {
     echo 'connected';
     } else {
@@ -57,7 +75,7 @@
 	?>
 	<div class="container-fluid">
 	<h1>Form Pemilihan Prodi</h1>
-	<p>This is a paragraph.</p>
+	<p>Silahkan pilih periode dan prodi yang ingin anda lihat.</p>
 	
 	<p></p>
 	<div class="row">
