@@ -74,41 +74,46 @@
 	//}
 	?>
 	<div class="container-fluid">
-	<h1>Form Pemilihan Prodi</h1>
-	<p>Silahkan pilih periode dan prodi yang ingin anda lihat.</p>
-	
+	<h2 class="text-center">Form Pemilihan Prodi</h2>
+	<p  class="text-center">Silahkan pilih periode dan prodi yang ingin anda lihat.</p>
+	</div>
 	<p></p>
-	<div class="row">
-		<div class="col-xs-6 col-sm-3">
-		<form method="post" action="pelamar_diterima.php">
-			<div class="div-inline">Periode: 
-			<select class="form-control" name="periode_select" id="periode_select">
-				<?php
-				$query = "select * from periode_penerimaan";
-				$result = pg_query($query);
-				
-				while ($row = pg_fetch_assoc($result)){
-				echo "<option name='". htmlspecialchars($row['nomor']) ."'>" . htmlspecialchars($row['nomor']) . " - " . htmlspecialchars($row['tahun']) . "</option>";
-				}
-				?>
-			</select>
+	
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+					<form method="post" action="pelamar_diterima.php">
+						<div class="form-group">
+							Periode: 
+								<select class="form-control" name="periode_select" id="periode_select">
+									<?php
+									$query = "select * from periode_penerimaan";
+									$result = pg_query($query);
+									
+									while ($row = pg_fetch_assoc($result)){
+									echo "<option name='". htmlspecialchars($row['nomor']) ."'>" . htmlspecialchars($row['nomor']) . " - " . htmlspecialchars($row['tahun']) . "</option>";
+									}
+									?>
+								</select>
+						</div>
+						<p></p>
+							<div class="form-group">
+							Prodi: 
+								<select class="form-control" name="prodi_select" id="prodi_select">
+									<?php
+									$query2 = "select * from program_studi";
+									$result2 = pg_query($query2);
+									
+									while ($row = pg_fetch_assoc($result2)){
+									echo "<option name='". htmlspecialchars($row['jenjang']) ."'>" . htmlspecialchars($row['jenjang']) . " " . htmlspecialchars($row['nama']) . " " . htmlspecialchars($row['jenis_kelas']) ."</option>";
+									}
+									?>
+								</select>
+							</div>
+						<p></p>
+						<input class="btn btn-default" type="submit" name="submit" value="Submit">
+					</form>
 			</div>
-			<p></p>
-			<div class="div-inline">Prodi: 
-			<select class="form-control" name="prodi_select" id="prodi_select">
-				<?php
-				$query2 = "select * from program_studi";
-				$result2 = pg_query($query2);
-				
-				while ($row = pg_fetch_assoc($result2)){
-				echo "<option name='". htmlspecialchars($row['jenjang']) ."'>" . htmlspecialchars($row['jenjang']) . " " . htmlspecialchars($row['nama']) . " " . htmlspecialchars($row['jenis_kelas']) ."</option>";
-				}
-				?>
-			</select>
-			</div>
-			<p></p>
-			<input class="btn btn-default" type="submit" name="submit" value="Submit">
-		</form>
 		</div>
 	</div>
 	</body>

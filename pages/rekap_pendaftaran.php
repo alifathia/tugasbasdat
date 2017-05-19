@@ -72,42 +72,50 @@
 	?>
 	
 	<div class="container-fluid">
-	<h1>Form Pemilihan Jenjang</h1>
-	<p>Isi periode dan jenjang sesuai dengan apa yang ingin dilihat.</p>
+	<h2 class="text-center">Form Pemilihan Jenjang</h2>
+	<p class="text-center">Silahkan pilih periode dan jenjang yang ingin anda lihat.</p>
+	</div>
 	
 	<p></p>
-	<div class="row">
-		<div class="col-xs-6 col-sm-3">
-		<form method="post" action="jenjang.php">
-			<div class="div-inline">Periode: 
-			<select class="form-control" name="periode_select" id="periode_select">
-				<?php
-				$query = "select * from periode_penerimaan";
-				$result = pg_query($query);
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+					<form method="post" action="jenjang.php">
+							<div class="form-group">
+							Periode: 
+								<select class="form-control" name="periode_select" id="periode_select">
+									<?php
+									$query = "select * from periode_penerimaan";
+									$result = pg_query($query);
+									
+									while ($row = pg_fetch_assoc($result)){
+									echo "<option name='". htmlspecialchars($row['nomor']) ."'>" . htmlspecialchars($row['nomor']) . " - " . htmlspecialchars($row['tahun']) . "</option>";
+									}
+									?>
+								</select>
+							</div>
+						<p></p>
+							<div class="form-group">
+							Jenjang: 
+								<select class="form-control" name="jenjang_select" id="jenjang_select">
+									<?php
+									$query2 = "select * from jenjang";
+									$result2 = pg_query($query2);
+									
+									while ($row = pg_fetch_assoc($result2)){
+									echo "<option name='". htmlspecialchars($row['nama']) ."'>" . htmlspecialchars($row['nama']) . "</option>";
+									}
+									?>
+								</select>
+							</div>
+					
+						<p></p>
+						<input class="btn btn-default" type="submit" name="submit" value="Submit">
+					</form>
 				
-				while ($row = pg_fetch_assoc($result)){
-				echo "<option name='". htmlspecialchars($row['nomor']) ."'>" . htmlspecialchars($row['nomor']) . " - " . htmlspecialchars($row['tahun']) . "</option>";
-				}
-				?>
-			</select>
 			</div>
-			<p></p>
-			<div class="div-inline">Jenjang: 
-			<select class="form-control" name="jenjang_select" id="jenjang_select">
-				<?php
-				$query2 = "select * from jenjang";
-				$result2 = pg_query($query2);
-				
-				while ($row = pg_fetch_assoc($result2)){
-				echo "<option name='". htmlspecialchars($row['nama']) ."'>" . htmlspecialchars($row['nama']) . "</option>";
-				}
-				?>
-			</select>
-			</div>
-			<p></p>
-			<input class="btn btn-default" type="submit" name="submit" value="Submit">
-		</form>
 		</div>
 	</div>
+	
 	</body>
 </html> 
