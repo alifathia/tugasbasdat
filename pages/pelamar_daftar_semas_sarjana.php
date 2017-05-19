@@ -31,15 +31,15 @@
 		    <div class="collapse navbar-collapse" id="myNavbar">
 		      <ul class="nav navbar-nav navbar-right">
 		      	<li><a href=#>#namaPelamar</a></li>
-		        <li><a href="../index.html">LOGOUT</a></li>
+		        <li><a href="logout.php">LOGOUT</a></li>
 		      </ul>
 		    </div>
 		  </div>
 		</nav>
 		
 		<?php
-	
-		$connection = pg_connect ("host=localhost dbname=sirima user=postgres password=postgres");
+		
+		$connection = pg_connect("host=localhost dbname=sirima user=postgres password=postgres");
 		
 		if($connection) {
 		echo 'connected';
@@ -70,7 +70,7 @@
 						<div class="form-group">
 							<label for="jenis">Jenis SMA</label>
 							<div class="form-group">
-				              <select class="form-control" id="jenisSMA" required>
+				              <select class="form-control" name="jenisSMA" id="jenisSMA" required>
 				                <option value="IPA">IPA</option>
 				                <option value="IPS">IPS</option>
 				                <option value="Bahasa">Bahasa</option>
@@ -89,7 +89,7 @@
 						</div>
 							<div class="form-group">
 							<label for="tanggal-lulus">Tanggal Lulus</label>
-							<input class="form-control" id="date" nama="date" type="date" required>
+							<input class="form-control" id="date" nama="tanggalLulus" type="date" required>
 						</div>
 						<div class="form-group">
 							<label for="uan">Nilai UAN</label>
@@ -103,8 +103,8 @@
 				              <select class="form-control" name="prodi1" id="prodi1" required>
 								<?php
 								$query = "SELECT PS.nama
-										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP
-										WHERE PP.nomor_periode='3' and PP.tahun_periode='2017' and PP.kode_prodi=PS.kode";
+										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP, PERIODE_PENERIMAAN PP2
+										WHERE PP2.status_aktif = 'true' and PP2.nomor=PP.nomor_periode and PP2.tahun=PP.tahun_periode  and PP.kode_prodi=PS.kode";
 								$result = pg_query($query);
 								
 								while ($row = pg_fetch_assoc ($result)){
@@ -118,10 +118,11 @@
 							<label for="prodi1">Prodi Pilihan 2</label>
 							<div class="form-group">
 				              <select class="form-control" name="prodi2" id="prodi2">
+								<option selected>Pilih Prodi</option>
 								<?php
 								$query = "SELECT PS.nama
-										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP
-										WHERE PP.nomor_periode='3' and PP.tahun_periode='2017' and PP.kode_prodi=PS.kode";
+										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP, PERIODE_PENERIMAAN PP2
+										WHERE PP2.status_aktif = 'true' and PP2.nomor=PP.nomor_periode and PP2.tahun=PP.tahun_periode  and PP.kode_prodi=PS.kode";
 								$result = pg_query($query);
 								
 								while ($row = pg_fetch_assoc ($result)){
@@ -136,10 +137,11 @@
 							<label for="prodi1">Prodi Pilihan 3</label>
 							<div class="form-group">
 				              <select class="form-control" name="prodi3" id="prodi3">
+								<option selected>Pilih Prodi</option>
 								<?php
 								$query = "SELECT PS.nama
-										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP
-										WHERE PP.nomor_periode='3' and PP.tahun_periode='2017' and PP.kode_prodi=PS.kode";
+										FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP, PERIODE_PENERIMAAN PP2
+										WHERE PP2.status_aktif = 'true' and PP2.nomor=PP.nomor_periode and PP2.tahun=PP.tahun_periode  and PP.kode_prodi=PS.kode";
 								$result = pg_query($query);
 								
 								while ($row = pg_fetch_assoc ($result)){
@@ -152,11 +154,11 @@
 						</div>				
 						<div class="form-group">
 							<label for="kota">Lokasi Kota Ujian</label>
-							<select id="Kota" class="form-control" role="listbox" required>
+							<select id="Kota" name="kotaUjian" class="form-control" role="listbox" required>
 								<?php
 								$query = "SELECT kota
-										FROM LOKASI_JADWAL
-										WHERE nomor_periode='3' and tahun_periode='2017' and jenjang='S1'";
+										FROM LOKASI_JADWAL LJ, PERIODE_PENERIMAAN PP
+										WHERE PP.status_aktif = 'true' and PP.nomor=LJ.nomor_periode and PP.tahun=LJ.tahun_periode  and LJ.jenjang='S1'";
 								$result = pg_query($query);
 								
 								while ($row = pg_fetch_assoc($result)){
@@ -167,7 +169,17 @@
 						</div>
 						<div class="form-group">
 							<label for="tempat">Lokasi Tempat Ujian</label>
-							<select id="second" class="form-control" role="listbox">
+							<select id="tempat" name="tempatUjian" class="form-control" role="listbox">
+								<?php
+								$query = "SELECT tempat
+										FROM LOKASI_JADWAL, PERIODE_PENERIMAAN PP
+										WHERE PP.status_aktif = 'true' and PP.nomor=LJ.nomor_periode and PP.tahun=LJ.tahun_periode  and LJ.jenjang='S1'";
+								$result = pg_query($query);
+								
+								while ($row = pg_fetch_assoc($result)){
+									echo "<option name='". htmlspecialchars($row['tempat']) ."'>" . htmlspecialchars($row['tempat']) . "</option>";
+								}
+								?>
 							</select>
 						</div>
 						<input type="hidden" id="daftar-command" name="command" value="daftar">
@@ -218,22 +230,117 @@
 </html>
 
 <?php
-function daftar(){
-
-    $prodi1 = $_POST['prodi1'];
-	$prodi2 = $_POST['prodi2'];
-	$prodi3 = $_POST['prodi3'];
+	session_start();
 	
-	if($prodi1 = $prodi2 = $prodi3 || $prodi1 = $prodi2 || $prodi1 = $prodi3 || $prodi2 = $prodi3){
-		$message = "Prodi pilihan 1, 2, dan 3 tidak boleh sama!";
-	} else {
-		//header("Location: pelamar_bayar.php");
-	}
-}
+	function connectDB(){
+		//create connection
+		$connection = pg_connect("host=localhost dbname=sirima user=postgres password=postgres");
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    if($_POST['command'] === 'daftar'){
-        daftar();
-    }
-}
+		//check connection
+		if(!$connection) {
+			echo 'there has been an error connecting';
+		}
+		return $connection;
+	}
+
+	function daftar(){
+
+		$prodi1 = $_POST['prodi1'];
+		$prodi2 = $_POST['prodi2'];
+		$prodi3 = $_POST['prodi3'];
+		
+		if($prodi1 = $prodi2 = $prodi3 || $prodi1 = $prodi2 || $prodi1 = $prodi3 || $prodi2 = $prodi3){
+			$message = "Prodi pilihan 1, 2, dan 3 tidak boleh sama!";
+			echo "<script type='text/javascript'>alert('$message');</script>";
+		} else {
+			insertDaftar();
+			//header("Location: pelamar_bayar.php");
+		}
+	}
+
+	function insertDaftar(){
+		connectDB();
+		
+		$query = "SET search_path to SIRIMA";
+		$result = pg_query($query);
+		
+		$pelamar = $_SESSION['username'];
+		
+		$query_periode = "SELECT * FROM PERIODE_PENERIMAAN WHERE status_aktif = 'true'";
+		$result_periode = pg_query($query_periode);
+		$row_periode = pg_fetch_assoc($result_periode);
+		//$nomor_periode
+		$nomor_periode = $row_periode['nomor'];
+		//$tahun_periode
+		$tahun_periode = $row_periode['tahun'];
+		
+		$asalSekolah = $_POST['asalSekolah'];
+		$jenisSMA = $_POST['jenisSMA'];
+		$alamatSekolah = $_POST['alamatSekolah'];
+		$nisn = $_POST['nisn'];
+		$tanggalLulus = $_POST['tanggalLulus'];
+		$nilaiuan = $_POST['nilaiuan'];
+		$prodi1 = $_POST['prodi1'];
+		$prodi2 = $_POST['prodi2'];
+		$prodi3 = $_POST['prodi3'];
+		$kotaUjian = $_POST['kotaUjian'];
+		
+		$query_tempat = "SELECT * FROM LOKASI_UJIAN WHERE kota = $kotaUjian";
+		$result_tempat = pg_query($query_tempat);
+		$row_tempat = pg_fetch_assoc($result_tempat);
+		//$tempatUjian
+		$tempatUjian = $row_tempat['tempat'];
+		
+		$query1 = "INSERT INTO PENDAFTARAN (status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('NULL', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
+		pg_query($query1);
+		
+		//get id_pendaftaran dulu, get last result
+		$query_id = "SELECT * FROM PENDAFTARAN WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
+		$result_id = pg_query($query_id);
+		$row_id = pg_fetch_assoc($result_id);
+		//$id_pendaftaran
+		$id_pendaftaran = $row_id['id'];
+		
+		$query2 = "INSERT INTO PENDAFTARAN_SEMAS (id_pendaftaran, status_hadir, nilai_ujian, no_kartu_ujian, lokasi_kota, lokasi_tempat) VALUES ('$id_pendaftaran', 'null', 'null', 'null', '$kotaUjian', '$tempatUjian')";
+		pg_query($query2);
+		$query3 = "INSERT INTO PENDAFTARAN_SEMAS_SARJANA (id_pendaftaran, asal_sekolah, jenis_sma, alamat_sekolah, nisn, tgl_lulus, nilai_uan) VALUES ('$id_pendaftaran', '$asalSekolah', '$jenisSMA', '$alamatSekolah', '$nisn', '$tanggalLulus', '$nilaiuan')";
+		pg_query($query3);
+		
+		
+		//get kode_prodi 1
+		$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = $prodi1 AND PS.kode = PP.kode_prodi AND PP.nomor_periode = $nomor_periode AND PP.tahun_periode = $tahun_periode";
+		$result_prodi = pg_query($query_prodi);
+		$row_prodi = pg_fetch_assoc($result_prodi);
+		$kode_prodi1 = $row_prodi['kode'];
+		$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi1', 'null')";
+		pg_query($query4);
+		
+		if($prodi2 != "Pilih Prodi"){
+			$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = $prodi2 AND PS.kode = PP.kode_prodi AND PP.nomor_periode = $nomor_periode AND PP.tahun_periode = $tahun_periode";
+			$result_prodi = pg_query($query_prodi);
+			$row_prodi = pg_fetch_assoc($result_prodi);
+			$kode_prodi2 = $row_prodi['kode'];
+			$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi2', 'null')";
+			pg_query($query4);
+		}
+		
+		if($prodi3 != "Pilih Prodi"){
+			$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = $prodi3 AND PS.kode = PP.kode_prodi AND PP.nomor_periode = $nomor_periode AND PP.tahun_periode = $tahun_periode";
+			$result_prodi = pg_query($query_prodi);
+			$row_prodi = pg_fetch_assoc($result_prodi);
+			$kode_prodi3 = $row_prodi['kode'];
+			$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi3', 'null')";
+			pg_query($query4);
+		}
+		
+		pg_close();
+		header("Location: pelamar_bayar.php");
+		
+	}
+
+	if($_SERVER['REQUEST_METHOD'] === 'POST'){
+		if($_POST['command'] === 'daftar'){
+			daftar();
+		}
+	}
 ?>
