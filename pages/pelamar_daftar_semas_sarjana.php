@@ -72,13 +72,8 @@
 		
 		$query1 = "INSERT INTO PENDAFTARAN (id, status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('$id_pendaftaran', 'false', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
 		$insert1 = pg_query($query1);
-		if($insert1){
-			echo "<script type='text/javascript'>alert('masuk pendaftaran');</script>";
-		} else {
-			echo "<script type='text/javascript'>alert('ga masuk pendaftaran');</script>";
-		}
 		
-		$query2 = "INSERT INTO PENDAFTARAN_SEMAS (id_pendaftaran, status_hadir, nilai_ujian, no_kartu_ujian, lokasi_kota, lokasi_tempat) VALUES ('$id_pendaftaran', 'false', 'null', 'null', '$kotaUjian', '$tempatUjian')";
+		$query2 = "INSERT INTO PENDAFTARAN_SEMAS (id_pendaftaran, status_hadir, nilai_ujian, no_kartu_ujian, lokasi_kota, lokasi_tempat) VALUES ('$id_pendaftaran', 'false', 'null', '', '$kotaUjian', '$tempatUjian')";
 		$insert2 = pg_query($query2);
 		
 		$query3 = "INSERT INTO PENDAFTARAN_SEMAS_SARJANA (id_pendaftaran, asal_sekolah, jenis_sma, alamat_sekolah, nisn, tgl_lulus, nilai_uan) VALUES ('$id_pendaftaran', '$asalSekolah', '$jenisSMA', '$alamatSekolah', '$nisn', '$tanggalLulus', '$nilaiuan')";
