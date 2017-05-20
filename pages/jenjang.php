@@ -73,9 +73,8 @@
 	//}
 	?>
 	<div class="container-fluid">
-	<h1>REKAP PENDAFTARAN</h1>
-	<p>Berikut adalah hasil rekap pendaftaran berdasarkan hasil pencarian pilihan user.</p>
-	
+	<h2 class="text-center">REKAP PENDAFTARAN</h2>
+	<br>
 	<p></p>
 	<?php
 		/*

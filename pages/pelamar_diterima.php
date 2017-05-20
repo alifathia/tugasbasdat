@@ -89,7 +89,8 @@
 	//}
 	?>
 	<div class="container-fluid">
-	<h2>LIHAT PELAMAR DITERIMA</h2>
+	<h2 class="text-center">LIHAT PELAMAR DITERIMA</h2>
+	<br>
 	
 	<p></p>
 	<?php

@@ -82,37 +82,37 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-					<form method="post" action="pelamar_diterima.php">
+				<form method="post" action="pelamar_diterima.php">
+					<div class="form-group">
+						Periode: 
+							<select class="form-control" name="periode_select" id="periode_select">
+								<?php
+								$query = "select * from periode_penerimaan";
+								$result = pg_query($query);
+								
+								while ($row = pg_fetch_assoc($result)){
+								echo "<option name='". htmlspecialchars($row['nomor']) ."'>" . htmlspecialchars($row['nomor']) . " - " . htmlspecialchars($row['tahun']) . "</option>";
+								}
+								?>
+							</select>
+					</div>
+					<p></p>
 						<div class="form-group">
-							Periode: 
-								<select class="form-control" name="periode_select" id="periode_select">
-									<?php
-									$query = "select * from periode_penerimaan";
-									$result = pg_query($query);
-									
-									while ($row = pg_fetch_assoc($result)){
-									echo "<option name='". htmlspecialchars($row['nomor']) ."'>" . htmlspecialchars($row['nomor']) . " - " . htmlspecialchars($row['tahun']) . "</option>";
-									}
-									?>
-								</select>
+						Prodi: 
+							<select class="form-control" name="prodi_select" id="prodi_select">
+								<?php
+								$query2 = "select * from program_studi";
+								$result2 = pg_query($query2);
+								
+								while ($row = pg_fetch_assoc($result2)){
+								echo "<option name='". htmlspecialchars($row['jenjang']) ."'>" . htmlspecialchars($row['jenjang']) . " " . htmlspecialchars($row['nama']) . " " . htmlspecialchars($row['jenis_kelas']) ."</option>";
+								}
+								?>
+							</select>
 						</div>
-						<p></p>
-							<div class="form-group">
-							Prodi: 
-								<select class="form-control" name="prodi_select" id="prodi_select">
-									<?php
-									$query2 = "select * from program_studi";
-									$result2 = pg_query($query2);
-									
-									while ($row = pg_fetch_assoc($result2)){
-									echo "<option name='". htmlspecialchars($row['jenjang']) ."'>" . htmlspecialchars($row['jenjang']) . " " . htmlspecialchars($row['nama']) . " " . htmlspecialchars($row['jenis_kelas']) ."</option>";
-									}
-									?>
-								</select>
-							</div>
-						<p></p>
-						<input class="btn btn-default" type="submit" name="submit" value="Submit">
-					</form>
+					<p></p>
+					<input class="btn btn-default" type="submit" name="submit" value="Submit">
+				</form>
 			</div>
 		</div>
 	</div>

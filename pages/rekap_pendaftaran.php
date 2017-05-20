@@ -81,33 +81,33 @@
 		<div class="modal-content">
 			<div class="modal-body">
 					<form method="post" action="jenjang.php">
-							<div class="form-group">
-							Periode: 
-								<select class="form-control" name="periode_select" id="periode_select">
-									<?php
-									$query = "select * from periode_penerimaan";
-									$result = pg_query($query);
-									
-									while ($row = pg_fetch_assoc($result)){
-									echo "<option name='". htmlspecialchars($row['nomor']) ."'>" . htmlspecialchars($row['nomor']) . " - " . htmlspecialchars($row['tahun']) . "</option>";
-									}
-									?>
-								</select>
-							</div>
+						<div class="form-group">
+						Periode: 
+							<select class="form-control" name="periode_select" id="periode_select">
+								<?php
+								$query = "select * from periode_penerimaan";
+								$result = pg_query($query);
+								
+								while ($row = pg_fetch_assoc($result)){
+								echo "<option name='". htmlspecialchars($row['nomor']) ."'>" . htmlspecialchars($row['nomor']) . " - " . htmlspecialchars($row['tahun']) . "</option>";
+								}
+								?>
+							</select>
+						</div>
 						<p></p>
-							<div class="form-group">
-							Jenjang: 
-								<select class="form-control" name="jenjang_select" id="jenjang_select">
-									<?php
-									$query2 = "select * from jenjang";
-									$result2 = pg_query($query2);
-									
-									while ($row = pg_fetch_assoc($result2)){
-									echo "<option name='". htmlspecialchars($row['nama']) ."'>" . htmlspecialchars($row['nama']) . "</option>";
-									}
-									?>
-								</select>
-							</div>
+						<div class="form-group">
+						Jenjang: 
+							<select class="form-control" name="jenjang_select" id="jenjang_select">
+								<?php
+								$query2 = "select * from jenjang";
+								$result2 = pg_query($query2);
+								
+								while ($row = pg_fetch_assoc($result2)){
+								echo "<option name='". htmlspecialchars($row['nama']) ."'>" . htmlspecialchars($row['nama']) . "</option>";
+								}
+								?>
+							</select>
+						</div>
 					
 						<p></p>
 						<input class="btn btn-default" type="submit" name="submit" value="Submit">
