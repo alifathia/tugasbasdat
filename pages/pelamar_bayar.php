@@ -27,6 +27,7 @@
 		$biaya = 50000;
 		
 		$query1 = "INSERT INTO PEMBAYARAN (waktu_bayar, jumlah_bayar, id_pendaftaran) VALUES (CURDATE(), '$biaya', '$id_pendaftaran')";
+		$insert1 = pg_query($query1);
 		
 		//generate nomor kartu ujian
 	

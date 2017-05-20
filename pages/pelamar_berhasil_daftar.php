@@ -85,10 +85,16 @@
 						</div>
 						<div class="form-group">
 							<label for="id_pd">Nomor Kartu Ujian	: <?php
-								$query_id = "SELECT * FROM PENDAFTARAN_SEMAS WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
+								$query_id = "SELECT * FROM PENDAFTARAN WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
 								$result_id = pg_query($query_id);
 								$row_id = pg_fetch_assoc($result_id);
-								$no_kartu = $row_id['no_kartu_ujian'];
+								//$id_pendaftaran
+								$id_pendaftaran = $row_id['id'];
+								
+								$query_no = "SELECT * from PENDAFTARAN_SEMAS WHERE id_pendaftaran = '$id_pendaftaran'";
+								$result_no = pg_query($query_no);
+								$row_no = pg_fetch_assoc($result_no);
+								$no_kartu = $row_no['no_kartu_ujian'];
 								echo "$no_kartu";
 							?></label>
 						</div>

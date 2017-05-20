@@ -61,15 +61,15 @@
 		//$tempatUjian
 		$tempatUjian = $row_tempat['tempat'];
 		
-		$query1 = "INSERT INTO PENDAFTARAN (status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('false', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
-		$insert1 = pg_query($query1);
-		
 		//get id_pendaftaran, get last result
 		$query_id = "SELECT * FROM PENDAFTARAN WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
 		$result_id = pg_query($query_id);
 		$row_id = pg_fetch_assoc($result_id);
 		//$id_pendaftaran
-		$id_pendaftaran = $row_id['id'];
+		$id_pendaftaran = $row_id['id'] + 1;
+		
+		$query1 = "INSERT INTO PENDAFTARAN (status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('false', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
+		$insert1 = pg_query($query1);
 		
 		$query2 = "INSERT INTO PENDAFTARAN_SEMAS (id_pendaftaran, status_hadir, nilai_ujian, no_kartu_ujian, lokasi_kota, lokasi_tempat) VALUES ('$id_pendaftaran', 'false', 'null', 'null', '$kotaUjian', '$tempatUjian')";
 		$insert2 = pg_query($query2);
