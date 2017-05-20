@@ -222,11 +222,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 				messages += "Harap isi kolom Alamat E-mail \n";
 			}
 
-			if(check_repeatpass.length == 0){
-				flag = false;
-				messages += "Harap isi kolom Ulangi Alamat E-mail \n";
-			}
-
 			// if(check_gender =! "P" || check_gender =! "P"){
 			// 	flag = false;
 			// 	messages += "Jenis kelamin harus diisi \n";
