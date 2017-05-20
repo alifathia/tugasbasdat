@@ -70,7 +70,7 @@
 		
 		echo "<script type='text/javascript'>alert('$id_pendaftaran');</script>";
 		
-		$query1 = "INSERT INTO PENDAFTARAN (status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('false', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
+		$query1 = "INSERT INTO PENDAFTARAN (id, status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('$id_pendaftaran', 'false', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
 		$insert1 = pg_query($query1);
 		
 		$query2 = "INSERT INTO PENDAFTARAN_SEMAS (id_pendaftaran, status_hadir, nilai_ujian, no_kartu_ujian, lokasi_kota, lokasi_tempat) VALUES ('$id_pendaftaran', 'false', 'null', 'null', '$kotaUjian', '$tempatUjian')";
