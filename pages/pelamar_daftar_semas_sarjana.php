@@ -68,7 +68,7 @@
 		//$id_pendaftaran
 		$id_pendaftaran = 1 + $row_id['id'];
 		
-		echo "<script type='text/javascript'>alert('$id_pendaftaran');</script>";
+		
 		
 		$query1 = "INSERT INTO PENDAFTARAN (id, status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('$id_pendaftaran', 'false', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
 		$insert1 = pg_query($query1);
@@ -107,7 +107,7 @@
 		}
 		
 		pg_close();
-		//header("Location: pelamar_bayar.php");
+		header("Location: pelamar_bayar.php");
 	}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
