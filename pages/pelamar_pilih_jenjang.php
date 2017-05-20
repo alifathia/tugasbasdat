@@ -47,14 +47,6 @@
 					<form action="" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="jenjang">Jenjang</label>
-							<!--<div class="form-group">
-				              <select class="form-control" id="jenjang" >
-				                <option value="S1">S1 (Sarjana)</option>
-				                <option value="S2">S2 (Pascasarjana)</option>
-				                <option value="S3">S3 (Pascasarjana)</option>
-				              </select>
-				            </div>
-						</div>-->
 						<div class="dropdown">
 							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Pilih Jenjang<span class="caret"></span></button>
 							<ul class="dropdown-menu">
@@ -66,8 +58,6 @@
 							  <li class="disabled"><a href="#">S3</a></li>
 							</ul>
 						</div>
-						<!--<input type="hidden" id="insert-command" name="command" value="insert">
-						<button type="button" class="btn btn-primary">Simpan</button>-->
 					</form>
 				</div>
 			</div>

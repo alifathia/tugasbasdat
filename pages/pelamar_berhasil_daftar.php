@@ -41,18 +41,11 @@
 		
 		$connection = pg_connect("host=localhost dbname=sirima user=postgres password=postgres");
 		
-		if($connection) {
-		echo 'connected';
-		} else {
-		echo 'there has been an error connecting';
-		} 
+		
 		
 		$query = "SET search_path to SIRIMA";
 		$result = pg_query($query);
-		//$row = pg_fetch_assoc($result);
-		//while ($row){
-		//echo "<option value=\"owner1\">" . $row['username'] . "</option>";
-		//}
+		
 		?>
 
 		<div class="container-fluid" id="berhasil" style="width:500px;height:190px;">
