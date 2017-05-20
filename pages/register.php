@@ -43,6 +43,7 @@ function register(){
 
 		$_SESSION["username"] = $username;
 		$_SESSION["newuser"] = true;
+		$_SESSION["role"] = "pelamar";
 		header("Location: landing_pelamar.php");
 	}
 
