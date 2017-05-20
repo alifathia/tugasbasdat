@@ -76,7 +76,7 @@
 						</div>
 						<div class="form-group">
 							<label for="id_pd">Id Pembayaran	: <?php
-								$query_id = "SELECT * FROM PEMBAYARAN WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
+								$query_id = "SELECT * FROM PEMBAYARAN WHERE id = (SELECT MAX(id) FROM PEMBAYARAN)";
 								$result_id = pg_query($query_id);
 								$row_id = pg_fetch_assoc($result_id);
 								$id_pembayaran = $row_id['id'];

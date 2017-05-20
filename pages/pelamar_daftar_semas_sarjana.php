@@ -66,7 +66,9 @@
 		$result_id = pg_query($query_id);
 		$row_id = pg_fetch_assoc($result_id);
 		//$id_pendaftaran
-		$id_pendaftaran = $row_id['id'] + 1;
+		$id_pendaftaran = 1 + $row_id['id'];
+		
+		echo "<script type='text/javascript'>alert('$id_pendaftaran');</script>";
 		
 		$query1 = "INSERT INTO PENDAFTARAN (status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('false', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
 		$insert1 = pg_query($query1);
@@ -110,7 +112,6 @@
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if($_POST['command'] === 'bayar'){
-        echo "<script type='text/javascript'>alert('yeay masuk fungsi post!');</script>";
 		daftar();
     }
 }
