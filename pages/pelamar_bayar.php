@@ -24,15 +24,18 @@
 		
 		
 		$id_pendaftaran = $row_id['id'];
-		$biaya = 50000;
+		$biaya = 500000;
 		
-		$query1 = "INSERT INTO PEMBAYARAN (waktu_bayar, jumlah_bayar, id_pendaftaran) VALUES (CURDATE(), '$biaya', '$id_pendaftaran')";
+		//get timestamp
+		$date = date('m/d/Y h:i:s', time());
+		
+		$query1 = "INSERT INTO PEMBAYARAN (waktu_bayar, jumlah_bayar, id_pendaftaran) VALUES ('$date', '$biaya', '$id_pendaftaran')";
 		$insert1 = pg_query($query1);
 		
 		//generate nomor kartu ujian
 	
 		
-		//header("Location: pelamar_berhasil_daftar.php");
+		header("Location: pelamar_berhasil_daftar.php");
 		pg_close();
 	}
 
