@@ -107,7 +107,7 @@
 		}
 		
 		pg_close();
-		header("Location: pelamar_bayar.php");
+		//header("Location: pelamar_bayar.php");
 	}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
