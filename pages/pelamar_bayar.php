@@ -42,6 +42,7 @@
 		//generate nomor kartu ujian
 		$nomor = date('Ymdhis', time());
 		$query2 = "UPDATE PENDAFTARAN_SEMAS SET no_kartu_ujian = '$nomor' WHERE id_pendaftaran = '$id_pendaftaran'";
+		$insert2 = pg_query($query2);
 	
 		
 		header("Location: pelamar_berhasil_daftar.php");
