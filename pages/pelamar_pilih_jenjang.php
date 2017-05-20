@@ -23,11 +23,10 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>                        
 		      </button>
-		      <a class="navbar-brand" href="landing_pelamar.html">SIRIMA</a>
+		      <a class="navbar-brand" href="landing_pelamar.php">SIRIMA</a>
 		    </div>
 		    <div class="collapse navbar-collapse" id="myNavbar">
 		      <ul class="nav navbar-nav navbar-right">
-		      	<li><a href=#>#namaPelamar</a></li>
 		        <li><a href="logout.php">LOGOUT</a></li>
 		      </ul>
 		    </div>

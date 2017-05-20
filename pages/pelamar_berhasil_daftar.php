@@ -52,13 +52,14 @@
 		?>
 
 		<div class="container-fluid" id="pembayaran" style="width:500px;height:190px;">
-			<h2 class="text-center">SEMANGAT HAYUK BENTAR LAGI KELAR!!!!</h2>
+			<h2 class="text-center">SEMANGAT HAYUK PAS BANGET NIH MAU KELAR!!!!</h2>
 		</div>
 		
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form action="pelamar_bayar.php" method="post" enctype="multipart/form-data">
+					<p class="text-center">Selamat pembayaran berhasil dilakukan</p>
+					<form action="" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="id_pd">Id Pendaftaran	: <?php
 								$query_id = "SELECT * FROM PENDAFTARAN WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
@@ -70,11 +71,23 @@
 							?></label>
 						</div>
 						<div class="form-group">
-							<label for="jml_pb">Biaya Pendaftaran	: Rp 500.000
-							</label>
+							<label for="id_pd">Id Pembayaran	: <?php
+								$query_id = "SELECT * FROM PEMBAYARAN WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
+								$result_id = pg_query($query_id);
+								$row_id = pg_fetch_assoc($result_id);
+								$id_pembayaran = $row_id['id'];
+								echo "$id_pembayaran";
+							?></label>
 						</div>
-						<input type="hidden" id="bayar-command" name="command" value="bayar">
-						<button type="button" class="btn btn-primary">Bayar</button>
+						<div class="form-group">
+							<label for="id_pd">Nomor Kartu Ujian	: <?php
+								$query_id = "SELECT * FROM PENDAFTARAN_SEMAS WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
+								$result_id = pg_query($query_id);
+								$row_id = pg_fetch_assoc($result_id);
+								$no_kartu = $row_id['no_kartu_ujian'];
+								echo "$no_kartu";
+							?></label>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -86,44 +99,3 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	</body>
 </html>
-
-<?php
-	function connectDB(){
-		//create connection
-		$connection = pg_connect("host=localhost dbname=sirima user=postgres password=postgres");
-
-		//check connection
-		if(!$connection) {
-			echo 'there has been an error connecting';
-		}
-		return $connection;
-	}
-	
-	function bayar(){
-		connectDB();
-		
-		$query = "SET search_path to SIRIMA";
-		$result = pg_query($query);
-		
-		$query_id = "SELECT * FROM PENDAFTARAN WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
-		$result_id = pg_query($query_id);
-		$row_id = pg_fetch_assoc($result_id);
-		
-		
-		$id_pendaftaran = $row_id['id'];
-		$biaya = 50000;
-		
-		$query1 = "INSERT INTO PEMBAYARAN (waktu_bayar, jumlah_bayar, id_pendaftaran) VALUES (CURDATE(), '$biaya', '$id_pendaftaran')";
-		
-		//generate nomor kartu ujian
-		
-		pg_close();
-		header("Location: pelamar_berhasil_daftar.php");
-	}
-
-	if($_SERVER['REQUEST_METHOD'] === 'POST'){
-		if($_POST['command'] === 'bayar'){
-			bayar();
-		}
-	}
-?>

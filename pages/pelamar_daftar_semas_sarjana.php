@@ -26,11 +26,10 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>                        
 		      </button>
-		      <a class="navbar-brand" href="landing_pelamar.html">SIRIMA</a>
+		      <a class="navbar-brand" href="landing_pelamar.php">SIRIMA</a>
 		    </div>
 		    <div class="collapse navbar-collapse" id="myNavbar">
 		      <ul class="nav navbar-nav navbar-right">
-		      	<li><a href=#>#namaPelamar</a></li>
 		        <li><a href="logout.php">LOGOUT</a></li>
 		      </ul>
 		    </div>
@@ -62,7 +61,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form id="daftar" action="pelamar_daftar_semas_sarjana.php" method="post" enctype="multipart/form-data">
+					<form id="daftar" action="pelamar_daftar_semas_sarjana.php" method="post" onsubmit="return validate()" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="asal">Asal Sekolah</label>
 							<input type="text" class="form-control" id="insert-asalSekolah" name="asalSekolah" placeholder="Contoh: SMA N 1 Jakarta" required>
@@ -172,7 +171,7 @@
 							<select id="tempat" name="tempatUjian" class="form-control" role="listbox">
 								<?php
 								$query = "SELECT tempat
-										FROM LOKASI_JADWAL, PERIODE_PENERIMAAN PP
+										FROM LOKASI_JADWAL LJ, PERIODE_PENERIMAAN PP
 										WHERE PP.status_aktif = 'true' and PP.nomor=LJ.nomor_periode and PP.tahun=LJ.tahun_periode  and LJ.jenjang='S1'";
 								$result = pg_query($query);
 								
@@ -183,33 +182,42 @@
 							</select>
 						</div>
 						<input type="hidden" id="daftar-command" name="command" value="daftar">
-						<button type="submit" class="btn btn-primary" onclick="myFunction()">Simpan</button>
+						<button type="submit" class="btn btn-primary">Simpan</button>
 					</form>
 				</div>
 			</div>
 		</div>
 		
 		<script>
-		function myFunction() {
-			var nisn, nilaiuan, text;
-			var isValid = true;
-
-			// Get the value of the input field
-			nisn = document.getElementById("insert-nisn").value;
-			nilaiuan = document.getElementById("insert-uan").value;
-
-			if (isNaN(nisn) || nisn > 9999999999) {
-				text = "Input harus berupa angka dan tidak boleh lebih dari 10 angka";
-				document.getElementById("alert_nisn").innerHTML = text;
-				isValid = false;
+		
+		function validate(){
+			var flag = true;
+			var message = "";
+			var cek_nisn = nisn = document.getElementById("insert-nisn").value;
+			var cek_uan = nilaiuan = document.getElementById("insert-uan").value;
+			var regex_nisn = /^[0-9]{10}$/;
+			var regex_uan = /(^[0-9]{2}$ || ^[0-9]{2}\.[0-9]{2}$)/;
+			
+			if(!regex_nisn.test(cek_nisn)){
+				flag = false;
+				message += "NISN harus berupa angka\n";
 			}
 			
-			if (isNaN(nilaiuan)) {
-				text = "Input harus berupa angka";
-				document.getElementById("alert_uan").innerHTML = text;
-				isValid = false;
+			if(cek_nisn.length > 10){
+				flag = false;
+				message += "NISN tidak boleh lebih dari 10 karakter angka\n";
 			}
 			
+			if(!regex_uan.test(cek_uan)){
+				flag = false;
+				message += "Nilai UAN harus berupa angka \n";
+			}
+			
+			if(!flag){
+				alert(message);
+			}
+			
+			return flag;
 		}
 		</script>
 		
@@ -259,7 +267,10 @@
 	}
 
 	function insertDaftar(){
-		connectDB();
+		$b = "masuk 2";
+		echo "<script type='text/javascript'>alert('$b');</script>";
+		
+		$conn = connectDB();
 		
 		$query = "SET search_path to SIRIMA";
 		$result = pg_query($query);
@@ -292,9 +303,9 @@
 		$tempatUjian = $row_tempat['tempat'];
 		
 		$query1 = "INSERT INTO PENDAFTARAN (status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('NULL', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
-		pg_query($query1);
+		$insert1 = pg_query($query1);
 		
-		//get id_pendaftaran dulu, get last result
+		//get id_pendaftaran, get last result
 		$query_id = "SELECT * FROM PENDAFTARAN WHERE id = (SELECT MAX(id) FROM PENDAFTARAN)";
 		$result_id = pg_query($query_id);
 		$row_id = pg_fetch_assoc($result_id);
@@ -302,9 +313,10 @@
 		$id_pendaftaran = $row_id['id'];
 		
 		$query2 = "INSERT INTO PENDAFTARAN_SEMAS (id_pendaftaran, status_hadir, nilai_ujian, no_kartu_ujian, lokasi_kota, lokasi_tempat) VALUES ('$id_pendaftaran', 'null', 'null', 'null', '$kotaUjian', '$tempatUjian')";
-		pg_query($query2);
+		$insert2 = pg_query($query2);
+		
 		$query3 = "INSERT INTO PENDAFTARAN_SEMAS_SARJANA (id_pendaftaran, asal_sekolah, jenis_sma, alamat_sekolah, nisn, tgl_lulus, nilai_uan) VALUES ('$id_pendaftaran', '$asalSekolah', '$jenisSMA', '$alamatSekolah', '$nisn', '$tanggalLulus', '$nilaiuan')";
-		pg_query($query3);
+		$insert3 = pg_query($query3);
 		
 		
 		//get kode_prodi 1
@@ -313,7 +325,7 @@
 		$row_prodi = pg_fetch_assoc($result_prodi);
 		$kode_prodi1 = $row_prodi['kode'];
 		$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi1', 'null')";
-		pg_query($query4);
+		$insert4 = pg_query($query4);
 		
 		if($prodi2 != "Pilih Prodi"){
 			$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = $prodi2 AND PS.kode = PP.kode_prodi AND PP.nomor_periode = $nomor_periode AND PP.tahun_periode = $tahun_periode";
@@ -321,7 +333,7 @@
 			$row_prodi = pg_fetch_assoc($result_prodi);
 			$kode_prodi2 = $row_prodi['kode'];
 			$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi2', 'null')";
-			pg_query($query4);
+			$insert4 = pg_query($query4);
 		}
 		
 		if($prodi3 != "Pilih Prodi"){
@@ -330,7 +342,7 @@
 			$row_prodi = pg_fetch_assoc($result_prodi);
 			$kode_prodi3 = $row_prodi['kode'];
 			$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi3', 'null')";
-			pg_query($query4);
+			$insert4 = pg_query($query4);
 		}
 		
 		pg_close();
@@ -340,7 +352,11 @@
 
 	if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		if($_POST['command'] === 'daftar'){
-			daftar();
+			//daftar();
+			$a = "masuk 1";
+			echo "<script type='text/javascript'>alert('$a');</script>";
+			insertDaftar();
+			
 		}
 	}
 ?>
