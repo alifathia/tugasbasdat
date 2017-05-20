@@ -55,13 +55,13 @@
 		$kotaUjian = $_POST['kotaUjian'];
 		
 		//get tempat ujian yang sesuai dengan lokasi
-		$query_tempat = "SELECT * FROM LOKASI_UJIAN WHERE kota = $kotaUjian";
+		$query_tempat = "SELECT * FROM LOKASI_UJIAN WHERE kota = '$kotaUjian'";
 		$result_tempat = pg_query($query_tempat);
 		$row_tempat = pg_fetch_assoc($result_tempat);
 		//$tempatUjian
 		$tempatUjian = $row_tempat['tempat'];
 		
-		$query1 = "INSERT INTO PENDAFTARAN (status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('NULL', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
+		$query1 = "INSERT INTO PENDAFTARAN (status_lulus, status_verifikasi, npm, pelamar, nomor_periode, tahun_periode) VALUES ('false', 'TRUE', 'NULL', '$pelamar', '$nomor_periode', '$tahun_periode')";
 		$insert1 = pg_query($query1);
 		
 		//get id_pendaftaran, get last result
@@ -71,7 +71,7 @@
 		//$id_pendaftaran
 		$id_pendaftaran = $row_id['id'];
 		
-		$query2 = "INSERT INTO PENDAFTARAN_SEMAS (id_pendaftaran, status_hadir, nilai_ujian, no_kartu_ujian, lokasi_kota, lokasi_tempat) VALUES ('$id_pendaftaran', 'null', 'null', 'null', '$kotaUjian', '$tempatUjian')";
+		$query2 = "INSERT INTO PENDAFTARAN_SEMAS (id_pendaftaran, status_hadir, nilai_ujian, no_kartu_ujian, lokasi_kota, lokasi_tempat) VALUES ('$id_pendaftaran', 'false', 'null', 'null', '$kotaUjian', '$tempatUjian')";
 		$insert2 = pg_query($query2);
 		
 		$query3 = "INSERT INTO PENDAFTARAN_SEMAS_SARJANA (id_pendaftaran, asal_sekolah, jenis_sma, alamat_sekolah, nisn, tgl_lulus, nilai_uan) VALUES ('$id_pendaftaran', '$asalSekolah', '$jenisSMA', '$alamatSekolah', '$nisn', '$tanggalLulus', '$nilaiuan')";
@@ -79,28 +79,28 @@
 		
 		
 		//get kode_prodi 1
-		$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = $prodi1 AND PS.kode = PP.kode_prodi AND PP.nomor_periode = $nomor_periode AND PP.tahun_periode = $tahun_periode";
+		$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = '$prodi1' AND PS.kode = PP.kode_prodi AND PP.nomor_periode = '$nomor_periode' AND PP.tahun_periode = '$tahun_periode'";
 		$result_prodi = pg_query($query_prodi);
 		$row_prodi = pg_fetch_assoc($result_prodi);
 		$kode_prodi1 = $row_prodi['kode'];
-		$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi1', 'null')";
+		$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi1', 'false')";
 		$insert4 = pg_query($query4);
 		
 		if($prodi2 != "Pilih Prodi"){
-			$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = $prodi2 AND PS.kode = PP.kode_prodi AND PP.nomor_periode = $nomor_periode AND PP.tahun_periode = $tahun_periode";
+			$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = '$prodi2' AND PS.kode = PP.kode_prodi AND PP.nomor_periode = '$nomor_periode' AND PP.tahun_periode = '$tahun_periode'";
 			$result_prodi = pg_query($query_prodi);
 			$row_prodi = pg_fetch_assoc($result_prodi);
 			$kode_prodi2 = $row_prodi['kode'];
-			$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi2', 'null')";
+			$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi2', 'false')";
 			$insert4 = pg_query($query4);
 		}
 		
 		if($prodi3 != "Pilih Prodi"){
-			$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = $prodi3 AND PS.kode = PP.kode_prodi AND PP.nomor_periode = $nomor_periode AND PP.tahun_periode = $tahun_periode";
+			$query_prodi = "SELECT * FROM PROGRAM_STUDI PS, PENERIMAAN_PRODI PP WHERE PS.nama = '$prodi3' AND PS.kode = PP.kode_prodi AND PP.nomor_periode = '$nomor_periode' AND PP.tahun_periode = '$tahun_periode'";
 			$result_prodi = pg_query($query_prodi);
 			$row_prodi = pg_fetch_assoc($result_prodi);
 			$kode_prodi3 = $row_prodi['kode'];
-			$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi3', 'null')";
+			$query4 = "INSERT INTO PENDAFTARAN_PRODI (id_pendaftaran, kode_prodi, status_lulus) VALUES ('$id_pendaftaran', '$kode_prodi3', 'false')";
 			$insert4 = pg_query($query4);
 		}
 		
@@ -203,7 +203,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 						</div>
 							<div class="form-group">
 							<label for="tanggal-lulus">Tanggal Lulus</label>
-							<input class="form-control" id="date" nama="tanggalLulus" type="date" required>
+							<input class="form-control" id="date" name="tanggalLulus" type="date" required>
 						</div>
 						<div class="form-group">
 							<label for="uan">Nilai UAN</label>
