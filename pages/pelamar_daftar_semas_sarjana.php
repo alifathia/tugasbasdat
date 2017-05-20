@@ -20,6 +20,7 @@
 		
 		if((($prodi1 == $prodi2)&&($prodi1 == $prodi3)&&($prodi2 == $prodi3)) || $prodi1 == $prodi2 || $prodi1 == $prodi3 || $prodi2 == $prodi3){
 			$message = "Prodi pilihan 1, 2, dan 3 tidak boleh sama!";
+			echo "<script type='text/javascript'>alert('$message');</script>";	
 		} else {
 			insertDaftar();
 		}
