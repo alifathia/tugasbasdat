@@ -119,7 +119,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			        <div class="form-group">
 			          <label for="repeatpassword">Ulangi Password</label >
 			          <input type="password" class="form-control" name="repeatpassword" id="repeatpassword" placeholder="ulangi password">
-			        	
+			          <span class="help-block">Masukkan kembali password</span>
 			        </div>
 			        <div class="form-group">
 			          <label for="fullname">Nama Lengkap</label >
@@ -150,10 +150,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			        <div class="form-group">
 			          <label for="email">E-mail</label >
 			          <input class="form-control" name="email" id="email" type="text" placeholder="alamat e-mail"/>
+			          <span class="help-block">Contoh: abc@xyz.com</span>
 			        </div>
 			        <div class="form-group">
 			          <label for="repeatemail">Ulangi E-mail</label >
 			          <input class="form-control" name="repeatemail" id="repeatemail" type="text" placeholder="ulangi e-mail"/>
+			          <span class="help-block">Masukkan kembali alamat e-mail</span>
 			        </div>
 			        <input type="hidden" id="register-command" name="command" value="register">
 			        <div class="button-container">
@@ -182,7 +184,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			var check_address = document.getElementById("address").value;
 			var check_email = document.getElementById("email").value;
 			var check_repeatemail = document.getElementById("repeatemail").value;
-			var regex_username = /^[a-zA-Z0-9]{1,20}$/;
+			var regex_username = /^[a-zA-Z0-9.]{1,20}$/;
 			var regex_idnumber = /^[0-9]{16}$/;
 			var regex_email = /\S+@\S+\.\S+/;
 
@@ -220,6 +222,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			if(check_email.length == 0){
 				flag = false;
 				messages += "Harap isi kolom Alamat E-mail \n";
+			}
+
+			if(check_repeatemail.length == 0){
+				flag = false;
+				messages += "Harap isi kolom Ulangi Alamat E-mail \n";
 			}
 
 			// if(check_gender =! "P" || check_gender =! "P"){
