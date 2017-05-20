@@ -1,3 +1,7 @@
+<?php
+	session_start();
+?>
+
 <!doctype html>
 <html>
 	<head>
@@ -51,14 +55,14 @@
 		//}
 		?>
 
-		<div class="container-fluid" id="pembayaran" style="width:500px;height:190px;">
-			<h2 class="text-center">SEMANGAT HAYUK PAS BANGET NIH MAU KELAR!!!!</h2>
+		<div class="container-fluid" id="berhasil" style="width:500px;height:190px;">
+			<h2 class="text-center">Pendaftaran Sukses</h2>
 		</div>
 		
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
-					<p class="text-center">Selamat pembayaran berhasil dilakukan</p>
+					<p class="text-center">Selamat pembayaran berhasil dilakukan!</p>
 					<form action="" method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="id_pd">Id Pendaftaran	: <?php
