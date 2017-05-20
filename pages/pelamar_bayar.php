@@ -29,7 +29,14 @@
 		//get timestamp
 		$date = date('m/d/Y h:i:s', time());
 		
-		$query1 = "INSERT INTO PEMBAYARAN (waktu_bayar, jumlah_bayar, id_pendaftaran) VALUES ('$date', '$biaya', '$id_pendaftaran')";
+		//get id_pembayaran, get last result
+		$query_pb= "SELECT * FROM PEMBAYARAN WHERE id = (SELECT MAX(id) FROM PEMBAYARAN)";
+		$result_pb = pg_query($query_id);
+		$row_pb = pg_fetch_assoc($result_id);
+		//$id_pembayaran
+		$id_pembayaran = 1 + $row_id['id'];
+		
+		$query1 = "INSERT INTO PEMBAYARAN (id, waktu_bayar, jumlah_bayar, id_pendaftaran) VALUES ('$id_pembayaran','$date', '$biaya', '$id_pendaftaran')";
 		$insert1 = pg_query($query1);
 		
 		//generate nomor kartu ujian
