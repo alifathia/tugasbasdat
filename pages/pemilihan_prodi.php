@@ -41,7 +41,7 @@
 	
 	<?php
 	session_start();
-	$connection = pg_connect ("host=localhost dbname=sirima user=postgres password=postgres");
+	$connection = pg_connect("host=dbpg.cs.ui.ac.id dbname=b203 user=b203 password=bdb0322016");
 	
     unset($_SESSION["pemilihan_prodi"]);
 	unset($_SESSION["nomor"]);
