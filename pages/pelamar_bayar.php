@@ -3,7 +3,7 @@
 
 	function connectDB(){
 		//create connection
-		$connection = pg_connect("host=localhost dbname=sirima user=postgres password=postgres");
+		$connection = pg_connect("host=dbpg.cs.ui.ac.id dbname=b203 user=b203 password=bdb0322016");
 
 		//check connection
 		if(!$connection) {

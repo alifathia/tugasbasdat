@@ -70,7 +70,7 @@
 		}
 	
 	$_SESSION["current_page_pelamar_diterima"] = isset($_GET["p"]) ? $_GET["p"] : 1;
-	$connection = pg_connect ("host=localhost dbname=sirima user=postgres password=postgres");
+	pg_connect("host=dbpg.cs.ui.ac.id dbname=b203 user=b203 password=bdb0322016");
     /*
 	if($connection) {
     echo 'connected';
